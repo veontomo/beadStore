@@ -5,5 +5,4 @@
     <string name="btnFindByColor">Find</string>
     <string name="colorNumber">color</string>
     <string name="beadPosition">position</string>
-    <string name="beadAvailability">available?</string>
 </resources>
