@@ -26,7 +26,7 @@ public class BeadActivity extends Activity {
 			public void onClick(View v) {
 				EditText inputField = (EditText) findViewById(R.id.beadColor);
 				String colorNumber = inputField.getText().toString();				
-				Toast.makeText(getApplicationContext(), colorNumber, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), colorNumber + String.valueOf(v.getAlpha()), Toast.LENGTH_SHORT).show();
 				
 			}
 		});
