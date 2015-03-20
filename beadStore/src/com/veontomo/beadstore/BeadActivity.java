@@ -28,8 +28,10 @@ public class BeadActivity extends Activity {
 			public void onClick(View v) {
 				EditText inputField = (EditText) findViewById(R.id.beadColor);
 				String colorNumber = inputField.getText().toString();
-				v.setEnabled(false);
+//				v.setEnabled(false);
 				Toast.makeText(getApplicationContext(), colorNumber + String.valueOf(v.getAlpha()), Toast.LENGTH_SHORT).show();
+//				View footerView = getLayoutInflater().inflate(R.layout.footer_layout, null);
+//				listview.addFooterView(footerView);
 				
 			}
 		});

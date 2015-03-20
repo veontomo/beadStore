@@ -15,6 +15,7 @@
         android:layout_marginTop="15dp"
         android:ems="10"
         android:inputType="number" >
+
         <requestFocus />
     </EditText>
 
@@ -26,9 +27,13 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/beadColor"
-        android:layout_toRightOf="@+id/beadColor"
         android:layout_toEndOf="@+id/beadColor"
-        
+        android:layout_toRightOf="@+id/beadColor"
         android:text="@string/btnFindByColor" />
+
+    <ListView
+        android:id="@+id/beadsView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
