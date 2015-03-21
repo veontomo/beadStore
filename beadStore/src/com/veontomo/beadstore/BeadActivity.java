@@ -1,5 +1,6 @@
 package com.veontomo.beadstore;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -23,20 +24,37 @@ import android.widget.Toast;
 
 public class BeadActivity extends ListActivity {
 	final private String TAG = "BeadStore";
+	ArrayAdapter<String> mAdapter;
+	ListView listView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bead);
 
-//		Button btn = (Button) findViewById(R.id.btnBeadFind);
 		View header = (View) getLayoutInflater().inflate(
 				R.layout.bead_header_layout, null);
 		getListView().addHeaderView(header);
-		String[] data = new String[] {"1", "2", "3", "4"};
-		ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this,
-				R.layout.bead_layout, R.id.colorNumber, data);
-		getListView().setAdapter(mAdapter);
+		ArrayList<String> data = new ArrayList<String>();
+		mAdapter = new ArrayAdapter<String>(this, R.layout.bead_layout,
+				R.id.colorNumber, data);
+		listView = getListView();
+		listView.setAdapter(mAdapter);
+
+		Button btn = (Button) findViewById(R.id.btnBeadFind);
+		OnClickListener listener = new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (mAdapter != null) {
+					EditText inputField = (EditText) 
+							findViewById(R.id.beadColor);
+					String color = inputField.getEditableText().toString();
+					mAdapter.add(color);
+				}
+			}
+		};
+		btn.setOnClickListener(listener);
 
 	}
 

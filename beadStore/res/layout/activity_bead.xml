@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:ems="10"
+        android:hint="@string/beadColorHint"
         android:inputType="number" >
 
         <requestFocus />

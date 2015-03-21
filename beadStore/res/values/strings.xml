@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">beadStore</string>
+    <string name="app_name">Bead Store</string>
     <string name="action_settings">Settings</string>
     <string name="btnFindByColor">Find</string>
     <string name="colorNumber">color</string>
     <string name="beadPosition">position</string>
+    <string name="beadColorHint">color number</string>
+    <string name="searchResult">search result</string>
 </resources>
