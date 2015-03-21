@@ -3,9 +3,12 @@ package com.veontomo.beadstore;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,9 +17,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class BeadActivity extends Activity {
+public class BeadActivity extends ListActivity {
 	final private String TAG = "BeadStore";
 
 	@Override
@@ -24,40 +29,15 @@ public class BeadActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bead);
 
-		Button btn = (Button) findViewById(R.id.btnBeadFind);
+//		Button btn = (Button) findViewById(R.id.btnBeadFind);
+		View header = (View) getLayoutInflater().inflate(
+				R.layout.bead_header_layout, null);
+		getListView().addHeaderView(header);
+		String[] data = new String[] {"1", "2", "3", "4"};
+		ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this,
+				R.layout.bead_layout, R.id.colorNumber, data);
+		getListView().setAdapter(mAdapter);
 
-		btn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				EditText inputField = (EditText) findViewById(R.id.beadColor);
-				String colorNumber = inputField.getText().toString();
-				// v.setEnabled(false);
-				Toast.makeText(getApplicationContext(),
-						colorNumber + String.valueOf(v.getAlpha()),
-						Toast.LENGTH_SHORT).show();
-				// View footerView =
-				// getLayoutInflater().inflate(R.layout.footer_layout, null);
-				// listview.addFooterView(footerView);
-				ListView listView = (ListView) findViewById(R.id.beadsView);
-				// Defined Array values to show in ListView
-
-				String[] values = new String[] { "Android", "iPhone",
-						"WindowsMobile", "Blackberry", "WebOS", "Ubuntu",
-						"Windows7", "Max OS X", "Linux", "OS/2", "Ubuntu",
-						"Windows7", "Max OS X", "Linux", "OS/2", "Ubuntu",
-						"Windows7", "Max OS X", "Linux", "OS/2", "Android",
-						"iPhone", "WindowsMobile" };
-
-				final ArrayList<String> list = new ArrayList<String>();
-				for (int i = 0; i < values.length; ++i) {
-					Log.i(TAG, values[i]);
-					list.add(values[i]);
-				}
-				final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.bead_layout, list);
-				listView.setAdapter(adapter);
-
-			}
-		});
 	}
 
 	@Override
