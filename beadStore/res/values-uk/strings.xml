@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Бісерний склад</string>
+    <string name="action_settings">Меню</string>
+    <string name="btnFindByColor">Знайти</string>
+    <string name="colorNumber">колір</string>
+    <string name="beadPosition">знаходження</string>
+    <string name="beadColorHint">номер коліру</string>
+    <string name="searchResult">Результати пошуку</string>
+</resources>

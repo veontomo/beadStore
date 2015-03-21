@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Magazzino di perline</string>
+    <string name="action_settings">Preferenze</string>
+    <string name="btnFindByColor">Cerca</string>
+    <string name="colorNumber">Colore</string>
+    <string name="beadPosition">posizione</string>
+    <string name="beadColorHint">numero del colore</string>
+    <string name="searchResult">Risultati di ricerca</string>
+</resources>
