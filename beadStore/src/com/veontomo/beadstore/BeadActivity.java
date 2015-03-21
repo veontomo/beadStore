@@ -49,8 +49,11 @@ public class BeadActivity extends ListActivity {
 				if (mAdapter != null) {
 					EditText inputField = (EditText) 
 							findViewById(R.id.beadColor);
-					String color = inputField.getEditableText().toString();
-					mAdapter.add(color);
+					String color = inputField.getEditableText().toString().trim();
+					if (!color.isEmpty()){
+						mAdapter.add(color);
+					}
+					inputField.getEditableText().clear();
 				}
 			}
 		};
