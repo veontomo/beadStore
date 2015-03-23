@@ -37,9 +37,6 @@ public class BeadActivity extends ListActivity {
 				R.layout.bead_header_layout, null);
 		getListView().addHeaderView(header);
 		ArrayList<String> data = new ArrayList<String>();
-		data.add("first");
-		data.add("second");
-		data.add("third");
 		mAdapter = new ArrayAdapter<String>(this, R.layout.bead_layout,
 				R.id.colorNumber, data);
 		listView = getListView();
@@ -55,7 +52,7 @@ public class BeadActivity extends ListActivity {
 					String color = inputField.getEditableText().toString()
 							.trim();
 					if (!color.isEmpty()) {
-						mAdapter.add(color);
+						mAdapter.insert(color, 0);
 						saveIntoHistory(color);
 					}
 					inputField.getEditableText().clear();
@@ -127,7 +124,7 @@ public class BeadActivity extends ListActivity {
 			ArrayList<String> saved = b.getStringArrayList(KEY);
 			if (saved != null && mAdapter != null){
 				for (String key : saved){
-					mAdapter.add(key);
+					mAdapter.insert(key, 0);
 					saveIntoHistory(key);
 				}
 			} 
