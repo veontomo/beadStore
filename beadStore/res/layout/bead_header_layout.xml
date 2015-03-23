@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/searchResult"
-        android:layout_margin="5dp"
+        style="@style/titleLine"
         />
     
 
