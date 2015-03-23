@@ -25,17 +25,21 @@ import android.widget.Toast;
 public class BeadActivity extends ListActivity {
 	final private String TAG = "BeadStore";
 	ArrayAdapter<String> mAdapter;
+	ArrayList<String> history;
+	private final String KEY = "app_key";
 	ListView listView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bead);
-
 		View header = (View) getLayoutInflater().inflate(
 				R.layout.bead_header_layout, null);
 		getListView().addHeaderView(header);
 		ArrayList<String> data = new ArrayList<String>();
+		data.add("first");
+		data.add("second");
+		data.add("third");
 		mAdapter = new ArrayAdapter<String>(this, R.layout.bead_layout,
 				R.id.colorNumber, data);
 		listView = getListView();
@@ -47,11 +51,12 @@ public class BeadActivity extends ListActivity {
 			@Override
 			public void onClick(View v) {
 				if (mAdapter != null) {
-					EditText inputField = (EditText) 
-							findViewById(R.id.beadColor);
-					String color = inputField.getEditableText().toString().trim();
-					if (!color.isEmpty()){
+					EditText inputField = (EditText) findViewById(R.id.beadColor);
+					String color = inputField.getEditableText().toString()
+							.trim();
+					if (!color.isEmpty()) {
 						mAdapter.add(color);
+						saveIntoHistory(color);
 					}
 					inputField.getEditableText().clear();
 				}
@@ -59,6 +64,15 @@ public class BeadActivity extends ListActivity {
 		};
 		btn.setOnClickListener(listener);
 
+	}
+
+	private void saveIntoHistory(String s) {
+		if (history == null) {
+			Log.i(TAG, "initialize history");
+			history = new ArrayList<String>();
+		}
+		Log.i(TAG, "add " + s + " into history");
+		history.add(s);
 	}
 
 	@Override
@@ -100,9 +114,24 @@ public class BeadActivity extends ListActivity {
 
 	@Override
 	protected void onPause() {
+		
 		super.onPause();
 		Log.i(TAG,
 				"Another activity is taking focus (this activity is about to be \"paused\")");
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle b) {
+		if (b != null) {
+			super.onRestoreInstanceState(b);
+			ArrayList<String> saved = b.getStringArrayList(KEY);
+			if (saved != null && mAdapter != null){
+				for (String key : saved){
+					mAdapter.add(key);
+					saveIntoHistory(key);
+				}
+			} 
+		}
 	}
 
 	@Override
@@ -115,6 +144,12 @@ public class BeadActivity extends ListActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		Log.i(TAG, "The activity is about to be destroyed.");
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+	   super.onSaveInstanceState(outState);
+	   outState.putStringArrayList(KEY, history);
 	}
 
 }
