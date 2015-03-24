@@ -34,36 +34,37 @@ public class BeadActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bead);
 		
-		Bead data[] = new Bead[]{new Bead("12404"), new Bead("34403")};
+		ArrayList<Bead> data = new ArrayList<Bead>();
 		
 		View header = (View) getLayoutInflater().inflate(
 				R.layout.bead_header_layout, null);
 
 		listView = (ListView) findViewById(R.id.list);
 		listView.addHeaderView(header);
-//		ArrayList<String> data = new ArrayList<String>();
 		mAdapter = new BeadAdapter(this, R.layout.bead_layout, data);
 
 		listView.setAdapter(mAdapter);
 
-//		Button btn = (Button) findViewById(R.id.btnBeadFind);
-//		OnClickListener listener = new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				if (mAdapter != null) {
-//					EditText inputField = (EditText) findViewById(R.id.beadColor);
-//					String color = inputField.getEditableText().toString()
-//							.trim();
-//					if (!color.isEmpty()) {
-//						mAdapter.insert(color, 0);
+		Button btn = (Button) findViewById(R.id.btnBeadFind);
+		OnClickListener listener = new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (mAdapter != null) {
+					EditText inputField = (EditText) findViewById(R.id.beadColor);
+					String color = inputField.getEditableText().toString()
+							.trim();
+					if (!color.isEmpty()) {
+						Bead bead = new Bead(color);
+						mAdapter.insert(bead, 0);
+						mAdapter.notifyDataSetChanged();
 //						saveIntoHistory(color);
-//					}
-//					inputField.getEditableText().clear();
-//				}
-//			}
-//		};
-//		btn.setOnClickListener(listener);
+					}
+					inputField.getEditableText().clear();
+				}
+			}
+		};
+		btn.setOnClickListener(listener);
 
 	}
 

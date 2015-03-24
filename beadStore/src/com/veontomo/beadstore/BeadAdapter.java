@@ -1,7 +1,10 @@
 package com.veontomo.beadstore;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +23,7 @@ public class BeadAdapter extends ArrayAdapter<Bead> {
 	}
 	Context context;
     int layoutId;   
-    Bead data[] = null;
+    ArrayList<Bead> data = null;
 	/**
 	 *  Constructor
 	 *  @param Context context 
@@ -28,7 +31,7 @@ public class BeadAdapter extends ArrayAdapter<Bead> {
 	 *  @param Bead[] beads     array of Bead instances
 	 *  @since 0.1
 	 */
-	public BeadAdapter(Context context, int layoutId, Bead[] beads) {
+	public BeadAdapter(Context context, int layoutId, ArrayList<Bead> beads) {
 		 super(context, layoutId, beads);
 		 this.context = context;
 		 this.layoutId = layoutId;
@@ -51,11 +54,12 @@ public class BeadAdapter extends ArrayAdapter<Bead> {
 		} else {
 			holder = (BeadHolder) row.getTag();
 		}
-		Bead bead = this.data[index];
+		Bead bead = this.data.get(index);
 		holder.colorCode.setText(bead.getColorCode());
         holder.location.setText(bead.getLocation());
 		
 		return row;
 	}
+	
 
 }
