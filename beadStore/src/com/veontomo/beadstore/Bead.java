@@ -32,4 +32,24 @@ public class Bead {
 		return "a stub";
 	}
 
+
+	public String getColorCode() {
+		return colorCode;
+	}
+
+
+	public void setColorCode(String colorCode) {
+		this.colorCode = colorCode;
+	}
+
+
+	public String getLocation() {
+		return location;
+	}
+
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
 }
