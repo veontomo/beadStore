@@ -22,9 +22,9 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class BeadActivity extends ListActivity {
+public class BeadActivity extends Activity {
 	final private String TAG = "BeadStore";
-	ArrayAdapter<String> mAdapter;
+	BeadAdapter mAdapter;
 	ArrayList<String> history;
 	private final String KEY = "app_key";
 	ListView listView;
@@ -33,33 +33,37 @@ public class BeadActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bead);
+		
+		Bead data[] = new Bead[]{new Bead("12404"), new Bead("34403")};
+		
 		View header = (View) getLayoutInflater().inflate(
 				R.layout.bead_header_layout, null);
-		getListView().addHeaderView(header);
-		ArrayList<String> data = new ArrayList<String>();
-		mAdapter = new ArrayAdapter<String>(this, R.layout.bead_layout,
-				R.id.colorNumber, data);
-		listView = getListView();
+
+		listView = (ListView) findViewById(R.id.list);
+		listView.addHeaderView(header);
+//		ArrayList<String> data = new ArrayList<String>();
+		mAdapter = new BeadAdapter(this, R.layout.bead_layout, data);
+
 		listView.setAdapter(mAdapter);
 
-		Button btn = (Button) findViewById(R.id.btnBeadFind);
-		OnClickListener listener = new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				if (mAdapter != null) {
-					EditText inputField = (EditText) findViewById(R.id.beadColor);
-					String color = inputField.getEditableText().toString()
-							.trim();
-					if (!color.isEmpty()) {
-						mAdapter.insert(color, 0);
-						saveIntoHistory(color);
-					}
-					inputField.getEditableText().clear();
-				}
-			}
-		};
-		btn.setOnClickListener(listener);
+//		Button btn = (Button) findViewById(R.id.btnBeadFind);
+//		OnClickListener listener = new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				if (mAdapter != null) {
+//					EditText inputField = (EditText) findViewById(R.id.beadColor);
+//					String color = inputField.getEditableText().toString()
+//							.trim();
+//					if (!color.isEmpty()) {
+//						mAdapter.insert(color, 0);
+//						saveIntoHistory(color);
+//					}
+//					inputField.getEditableText().clear();
+//				}
+//			}
+//		};
+//		btn.setOnClickListener(listener);
 
 	}
 
@@ -117,19 +121,19 @@ public class BeadActivity extends ListActivity {
 				"Another activity is taking focus (this activity is about to be \"paused\")");
 	}
 
-	@Override
-	protected void onRestoreInstanceState(Bundle b) {
-		if (b != null) {
-			super.onRestoreInstanceState(b);
-			ArrayList<String> saved = b.getStringArrayList(KEY);
-			if (saved != null && mAdapter != null){
-				for (String key : saved){
-					mAdapter.insert(key, 0);
-					saveIntoHistory(key);
-				}
-			} 
-		}
-	}
+//	@Override
+//	protected void onRestoreInstanceState(Bundle b) {
+//		if (b != null) {
+//			super.onRestoreInstanceState(b);
+//			ArrayList<String> saved = b.getStringArrayList(KEY);
+//			if (saved != null && mAdapter != null){
+//				for (String key : saved){
+//					mAdapter.insert(key, 0);
+//					saveIntoHistory(key);
+//				}
+//			} 
+//		}
+//	}
 
 	@Override
 	protected void onStop() {
@@ -143,10 +147,10 @@ public class BeadActivity extends ListActivity {
 		Log.i(TAG, "The activity is about to be destroyed.");
 	}
 	
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-	   super.onSaveInstanceState(outState);
-	   outState.putStringArrayList(KEY, history);
-	}
+//	@Override
+//	public void onSaveInstanceState(Bundle outState) {
+//	   super.onSaveInstanceState(outState);
+//	   outState.putStringArrayList(KEY, history);
+//	}
 
 }

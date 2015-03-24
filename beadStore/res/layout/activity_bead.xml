@@ -33,7 +33,7 @@
         android:text="@string/btnFindByColor" />
 
     <ListView
-        android:id="@android:id/list"
+        android:id="@+id/list"
         android:layout_below="@id/btnBeadFind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
