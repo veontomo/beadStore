@@ -52,11 +52,15 @@ public class BeadActivity extends Activity {
 	 * A list view whose items visualize Bead instances.
 	 */
 	ListView listView;
+	
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bead);
+		
+		
 		
 		ArrayList<Bead> data = new ArrayList<Bead>();
 		

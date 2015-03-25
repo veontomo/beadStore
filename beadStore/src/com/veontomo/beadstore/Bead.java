@@ -1,5 +1,7 @@
 package com.veontomo.beadstore;
 
+import com.veontomo.beadstore.BeadStand.Location;
+
 /*
  * Class to describe beads (color, position)
  * @author veontomo@gmail.com
@@ -17,6 +19,13 @@ public class Bead {
 	 * @since 0.1
 	 */
 	private String location;
+	
+	/**
+	 * Bead stand. It is responsible for finding the beads.
+	 * @since 0.2
+	 * @see BeadStand
+	 */
+	private BeadStand beadStand = new BeadStand();
 
 	public Bead(String colorCode) {
 		this.colorCode = colorCode;
@@ -28,8 +37,12 @@ public class Bead {
 	 * Returns a position of a bead by its color code
 	 * @since 0.1
 	 */
-	public static String findPositionByColorNumber(String colorNumber){
-		return "a stub";
+	public String findPositionByColorNumber(String colorNumber){
+		Location loc = beadStand.getByColor(colorNumber);
+		if (loc != null){
+			return loc.toString();
+		}
+		return "not found";
 	}
 
 
