@@ -36,6 +36,10 @@ public class BeadActivity extends Activity {
 	 */
 	private BeadAdapter mAdapter;
 	
+	private BeadStand beadStand = new BeadStand();
+	
+//	private BeadInfo beadInfo = new BeadInfo();
+	
 	/**
 	 * Array list in which a history of search requests is stored.
 	 * @since 0.1 
@@ -62,7 +66,7 @@ public class BeadActivity extends Activity {
 		
 		
 		
-		ArrayList<Bead> data = new ArrayList<Bead>();
+		ArrayList<BeadInfo> data = new ArrayList<BeadInfo>();
 		
 		View header = (View) getLayoutInflater().inflate(
 				R.layout.bead_header_layout, null);
@@ -83,8 +87,14 @@ public class BeadActivity extends Activity {
 					String color = inputField.getEditableText().toString()
 							.trim();
 					if (!color.isEmpty()) {
+						BeadInfo beadInfo = new BeadInfo();
 						Bead bead = new Bead(color);
-						mAdapter.insert(bead, 0);
+						beadInfo.setColorCode(color);
+						Location loc = beadStand.getByColor(color);
+						if (loc != null){
+							beadInfo.setLocation(loc);
+						}
+						mAdapter.insert(beadInfo, 0);
 //						mAdapter.notifyDataSetChanged();
 						saveIntoHistory(color);
 					}
@@ -164,7 +174,7 @@ public class BeadActivity extends Activity {
 			if (saved != null && mAdapter != null){
 				for (String key : saved){
 					Bead bead = new Bead(key);
-					mAdapter.insert(bead, 0);
+//					mAdapter.insert(beadInfo, 0);
 					saveIntoHistory(key);
 				}
 			} 

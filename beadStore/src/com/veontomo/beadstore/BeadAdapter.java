@@ -16,14 +16,16 @@ import android.widget.TextView;
  * @author veontomo@gmail.com
  * @since 0.1
  */
-public class BeadAdapter extends ArrayAdapter<Bead> {
+public class BeadAdapter extends ArrayAdapter<BeadInfo> {
 	private static class BeadHolder {
 		TextView colorCode;
-		TextView location;
+		TextView wing;
+		TextView row;
+		TextView col;
 	}
 	Context context;
     int layoutId;   
-    ArrayList<Bead> data = null;
+    ArrayList<BeadInfo> data = null;
 	/**
 	 *  Constructor
 	 *  @param Context context 
@@ -31,11 +33,11 @@ public class BeadAdapter extends ArrayAdapter<Bead> {
 	 *  @param Bead[] beads     array of Bead instances
 	 *  @since 0.1
 	 */
-	public BeadAdapter(Context context, int layoutId, ArrayList<Bead> beads) {
-		 super(context, layoutId, beads);
+	public BeadAdapter(Context context, int layoutId, ArrayList<BeadInfo> beadInfo) {
+		 super(context, layoutId, beadInfo);
 		 this.context = context;
 		 this.layoutId = layoutId;
-		 this.data = beads;
+		 this.data = beadInfo;
 	}
 	
 	@Override
@@ -49,14 +51,21 @@ public class BeadAdapter extends ArrayAdapter<Bead> {
            
             holder = new BeadHolder();
             holder.colorCode = (TextView) row.findViewById(R.id.colorNumber);
-            holder.location = (TextView) row.findViewById(R.id.beadPosition);
+            holder.wing = (TextView) row.findViewById(R.id.beadLocationWing);
+            holder.row =  (TextView) row.findViewById(R.id.beadLocationRow);
+            holder.col =  (TextView) row.findViewById(R.id.beadLocationColumn);
             row.setTag(holder);
 		} else {
 			holder = (BeadHolder) row.getTag();
 		}
-		Bead bead = this.data.get(index);
-		holder.colorCode.setText(bead.getColorCode());
-        holder.location.setText(bead.getLocation());
+		BeadInfo beadInfo = this.data.get(index);
+		holder.colorCode.setText(beadInfo.getColorCode());
+		Location loc = beadInfo.getLocation();
+		if (loc != null){
+	        holder.wing.setText(beadInfo.getLocation().getWing());
+	        holder.row.setText(beadInfo.getLocation().getRow());
+	        holder.col.setText(beadInfo.getLocation().getCol());
+		}
 		
 		return row;
 	}

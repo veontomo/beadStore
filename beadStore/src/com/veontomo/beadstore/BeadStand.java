@@ -107,46 +107,6 @@ public class BeadStand {
 	private HashMap<String, Location> colorToLocation = new HashMap<String, Location>();
 
 	/**
-	 * Coordinates of the bead on the stand
-	 * 
-	 * @author veontomo@gmail.com
-	 * @since 0.2
-	 */
-	public class Location {
-		/**
-		 * Name of the stand wing on which the bead is located
-		 * 
-		 * @since 0.2
-		 */
-		private String wing;
-
-		/**
-		 * row number in which the bead is located
-		 * 
-		 * @since 0.2
-		 */
-		private int row;
-
-		/**
-		 * column number in which the bead is located
-		 * 
-		 * @since 0.2
-		 */
-		private int col;
-
-		public Location(String wing, int row, int col) {
-			this.wing = wing;
-			this.row = row;
-			this.col = col;
-		}
-		
-		public String toString(){
-			return wing + ": " + String.valueOf(row) + " - " + String.valueOf(col);
-		}
-
-	}
-
-	/**
 	 * Constructor
 	 */
 	public BeadStand() {

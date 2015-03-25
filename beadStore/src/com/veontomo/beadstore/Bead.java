@@ -1,6 +1,5 @@
 package com.veontomo.beadstore;
 
-import com.veontomo.beadstore.BeadStand.Location;
 
 /*
  * Class to describe beads (color, position)

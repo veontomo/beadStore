@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/bead_row"
-    style="@style/beadRow">
+    style="@style/beadRow" >
 
     <TextView
         android:id="@+id/colorNumber"
@@ -9,7 +9,15 @@
         android:text="@string/colorNumber" />
 
     <TextView
-        android:id="@+id/beadPosition"
-        style="@style/beadPosition"/>
+        android:id="@+id/beadLocationWing"
+        style="@style/beadLocation" />
+
+    <TextView
+        android:id="@+id/beadLocationRow"
+        style="@style/beadLocation" />
+
+    <TextView
+        android:id="@+id/beadLocationColumn"
+        style="@style/beadLocation" />
 
 </LinearLayout>
