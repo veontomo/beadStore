@@ -23,10 +23,34 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class BeadActivity extends Activity {
+	/**
+	 * An auxiliary string used to mark log messages 
+	 * during development stage.
+	 * @since 0.1
+	 */
 	final private String TAG = "BeadStore";
-	BeadAdapter mAdapter;
-	ArrayList<String> history;
+	
+	/**
+	 * An adapter used to fill in a View with data of a Bead class instance into view.
+	 * @since 0.1
+	 */
+	private BeadAdapter mAdapter;
+	
+	/**
+	 * Array list in which a history of search requests is stored.
+	 * @since 0.1 
+	 */
+	private ArrayList<String> history;
+	
+	/**
+	 * A key under which the history of search requests is accessed in the 
+	 * application state (that is, in a Bundle instance). 
+	 */
 	private final String KEY = "app_key";
+	
+	/**
+	 * A list view whose items visualize Bead instances.
+	 */
 	ListView listView;
 
 	@Override
@@ -57,7 +81,7 @@ public class BeadActivity extends Activity {
 					if (!color.isEmpty()) {
 						Bead bead = new Bead(color);
 						mAdapter.insert(bead, 0);
-						mAdapter.notifyDataSetChanged();
+//						mAdapter.notifyDataSetChanged();
 						saveIntoHistory(color);
 					}
 					inputField.getEditableText().clear();
@@ -68,6 +92,12 @@ public class BeadActivity extends Activity {
 
 	}
 
+	/**
+	 * Puts string into history. 
+	 * @param s	bead's color code
+	 * @since 0.1
+	 * @see BeadActivity#history
+	 */
 	private void saveIntoHistory(String s) {
 		if (history == null) {
 			Log.i(TAG, "initialize history");
