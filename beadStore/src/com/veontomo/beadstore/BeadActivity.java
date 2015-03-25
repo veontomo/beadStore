@@ -58,7 +58,7 @@ public class BeadActivity extends Activity {
 						Bead bead = new Bead(color);
 						mAdapter.insert(bead, 0);
 						mAdapter.notifyDataSetChanged();
-//						saveIntoHistory(color);
+						saveIntoHistory(color);
 					}
 					inputField.getEditableText().clear();
 				}
@@ -122,19 +122,20 @@ public class BeadActivity extends Activity {
 				"Another activity is taking focus (this activity is about to be \"paused\")");
 	}
 
-//	@Override
-//	protected void onRestoreInstanceState(Bundle b) {
-//		if (b != null) {
-//			super.onRestoreInstanceState(b);
-//			ArrayList<String> saved = b.getStringArrayList(KEY);
-//			if (saved != null && mAdapter != null){
-//				for (String key : saved){
-//					mAdapter.insert(key, 0);
-//					saveIntoHistory(key);
-//				}
-//			} 
-//		}
-//	}
+	@Override
+	protected void onRestoreInstanceState(Bundle b) {
+		if (b != null) {
+			super.onRestoreInstanceState(b);
+			ArrayList<String> saved = b.getStringArrayList(KEY);
+			if (saved != null && mAdapter != null){
+				for (String key : saved){
+					Bead bead = new Bead(key);
+					mAdapter.insert(bead, 0);
+					saveIntoHistory(key);
+				}
+			} 
+		}
+	}
 
 	@Override
 	protected void onStop() {
@@ -148,10 +149,10 @@ public class BeadActivity extends Activity {
 		Log.i(TAG, "The activity is about to be destroyed.");
 	}
 	
-//	@Override
-//	public void onSaveInstanceState(Bundle outState) {
-//	   super.onSaveInstanceState(outState);
-//	   outState.putStringArrayList(KEY, history);
-//	}
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+	   super.onSaveInstanceState(outState);
+	   outState.putStringArrayList(KEY, history);
+	}
 
 }
