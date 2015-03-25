@@ -23,16 +23,44 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class BeadActivity extends Activity {
+	/**
+	 * An auxiliary string used to mark log messages 
+	 * during development stage.
+	 * @since 0.1
+	 */
 	final private String TAG = "BeadStore";
-	BeadAdapter mAdapter;
-	ArrayList<String> history;
+	
+	/**
+	 * An adapter used to fill in a View with data of a Bead class instance into view.
+	 * @since 0.1
+	 */
+	private BeadAdapter mAdapter;
+	
+	/**
+	 * Array list in which a history of search requests is stored.
+	 * @since 0.1 
+	 */
+	private ArrayList<String> history;
+	
+	/**
+	 * A key under which the history of search requests is accessed in the 
+	 * application state (that is, in a Bundle instance). 
+	 */
 	private final String KEY = "app_key";
+	
+	/**
+	 * A list view whose items visualize Bead instances.
+	 */
 	ListView listView;
+	
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bead);
+		
+		
 		
 		ArrayList<Bead> data = new ArrayList<Bead>();
 		
@@ -57,8 +85,8 @@ public class BeadActivity extends Activity {
 					if (!color.isEmpty()) {
 						Bead bead = new Bead(color);
 						mAdapter.insert(bead, 0);
-						mAdapter.notifyDataSetChanged();
-//						saveIntoHistory(color);
+//						mAdapter.notifyDataSetChanged();
+						saveIntoHistory(color);
 					}
 					inputField.getEditableText().clear();
 				}
@@ -68,6 +96,12 @@ public class BeadActivity extends Activity {
 
 	}
 
+	/**
+	 * Puts string into history. 
+	 * @param s	bead's color code
+	 * @since 0.1
+	 * @see BeadActivity#history
+	 */
 	private void saveIntoHistory(String s) {
 		if (history == null) {
 			Log.i(TAG, "initialize history");
@@ -122,19 +156,20 @@ public class BeadActivity extends Activity {
 				"Another activity is taking focus (this activity is about to be \"paused\")");
 	}
 
-//	@Override
-//	protected void onRestoreInstanceState(Bundle b) {
-//		if (b != null) {
-//			super.onRestoreInstanceState(b);
-//			ArrayList<String> saved = b.getStringArrayList(KEY);
-//			if (saved != null && mAdapter != null){
-//				for (String key : saved){
-//					mAdapter.insert(key, 0);
-//					saveIntoHistory(key);
-//				}
-//			} 
-//		}
-//	}
+	@Override
+	protected void onRestoreInstanceState(Bundle b) {
+		if (b != null) {
+			super.onRestoreInstanceState(b);
+			ArrayList<String> saved = b.getStringArrayList(KEY);
+			if (saved != null && mAdapter != null){
+				for (String key : saved){
+					Bead bead = new Bead(key);
+					mAdapter.insert(bead, 0);
+					saveIntoHistory(key);
+				}
+			} 
+		}
+	}
 
 	@Override
 	protected void onStop() {
@@ -148,10 +183,10 @@ public class BeadActivity extends Activity {
 		Log.i(TAG, "The activity is about to be destroyed.");
 	}
 	
-//	@Override
-//	public void onSaveInstanceState(Bundle outState) {
-//	   super.onSaveInstanceState(outState);
-//	   outState.putStringArrayList(KEY, history);
-//	}
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+	   super.onSaveInstanceState(outState);
+	   outState.putStringArrayList(KEY, history);
+	}
 
 }
