@@ -47,6 +47,7 @@ public final class R {
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
         public static final int beadColorHint=0x7f050005;
+        public static final int beadNotFound=0x7f050007;
         public static final int beadPosition=0x7f050004;
         public static final int btnFindByColor=0x7f050002;
         public static final int colorNumber=0x7f050003;
@@ -56,7 +57,6 @@ public final class R {
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-
 
 
 

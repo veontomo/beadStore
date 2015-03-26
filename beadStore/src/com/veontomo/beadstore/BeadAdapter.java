@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Adapter to fill in items of list view with bead data 
@@ -62,13 +63,26 @@ public class BeadAdapter extends ArrayAdapter<BeadInfo> {
 		holder.colorCode.setText(beadInfo.getColorCode());
 		Location loc = beadInfo.getLocation();
 		if (loc != null){
-	        holder.wing.setText(beadInfo.getLocation().getWing());
-	        holder.row.setText(beadInfo.getLocation().getRow());
-	        holder.col.setText(beadInfo.getLocation().getCol());
+			fillInLocationInfo(holder, loc);
+		} else {
+			fillInLocationNotFound(holder, context.getResources().getString(R.string.beadNotFound));
 		}
 		
 		return row;
 	}
+	
+	private void  fillInLocationInfo(BeadHolder holder, Location loc){
+        holder.wing.setText(loc.getWing());
+        holder.row.setText(String.valueOf(loc.getRow()));
+        holder.col.setText(String.valueOf(loc.getCol()));
+	}
+	
+	private void  fillInLocationNotFound(BeadHolder holder, String message){
+        holder.wing.setText(message);
+        holder.row.setText("");
+        holder.col.setText("");
+	}
+
 	
 
 }

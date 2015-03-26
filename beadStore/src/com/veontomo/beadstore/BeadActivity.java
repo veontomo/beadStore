@@ -88,14 +88,15 @@ public class BeadActivity extends Activity {
 							.trim();
 					if (!color.isEmpty()) {
 						BeadInfo beadInfo = new BeadInfo();
-						Bead bead = new Bead(color);
+//						Bead bead = new Bead(color);
 						beadInfo.setColorCode(color);
 						Location loc = beadStand.getByColor(color);
+
 						if (loc != null){
 							beadInfo.setLocation(loc);
 						}
-						mAdapter.insert(beadInfo, 0);
-//						mAdapter.notifyDataSetChanged();
+						mAdapter.add(beadInfo);
+						mAdapter.notifyDataSetChanged();
 						saveIntoHistory(color);
 					}
 					inputField.getEditableText().clear();
@@ -113,12 +114,12 @@ public class BeadActivity extends Activity {
 	 * @see BeadActivity#history
 	 */
 	private void saveIntoHistory(String s) {
-		if (history == null) {
-			Log.i(TAG, "initialize history");
-			history = new ArrayList<String>();
-		}
-		Log.i(TAG, "add " + s + " into history");
-		history.add(s);
+//		if (history == null) {
+//			Log.i(TAG, "initialize history");
+//			history = new ArrayList<String>();
+//		}
+//		Log.i(TAG, "add " + s + " into history");
+//		history.add(s);
 	}
 
 	@Override

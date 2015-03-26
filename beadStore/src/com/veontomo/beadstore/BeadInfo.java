@@ -58,5 +58,17 @@ public class BeadInfo {
 	}
 	
 	
+	public String toString(){
+		String output = "";
+		if (colorCode != null){
+			output += colorCode + " ";
+		}
+		if (location != null){
+			output += location.toString() + " ";
+		}
+		return output;
+	}
+	
+	
 
 }
