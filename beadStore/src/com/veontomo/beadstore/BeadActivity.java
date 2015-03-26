@@ -114,12 +114,12 @@ public class BeadActivity extends Activity {
 	 * @see BeadActivity#history
 	 */
 	private void saveIntoHistory(String s) {
-//		if (history == null) {
-//			Log.i(TAG, "initialize history");
-//			history = new ArrayList<String>();
-//		}
-//		Log.i(TAG, "add " + s + " into history");
-//		history.add(s);
+		if (history == null) {
+			Log.i(TAG, "initialize history");
+			history = new ArrayList<String>();
+		}
+		Log.i(TAG, "add " + s + " into history");
+		history.add(s);
 	}
 
 	@Override
@@ -171,14 +171,23 @@ public class BeadActivity extends Activity {
 	protected void onRestoreInstanceState(Bundle b) {
 		if (b != null) {
 			super.onRestoreInstanceState(b);
-			ArrayList<String> saved = b.getStringArrayList(KEY);
-			if (saved != null && mAdapter != null){
-				for (String key : saved){
-					Bead bead = new Bead(key);
-//					mAdapter.insert(beadInfo, 0);
-					saveIntoHistory(key);
+			ArrayList<String> savedHistory = b.getStringArrayList(KEY);
+			
+			if (savedHistory != null){
+				ArrayList<BeadInfo> data = new ArrayList<BeadInfo>();
+				for (String color : savedHistory){
+					BeadInfo beadInfo = new BeadInfo();
+					beadInfo.setColorCode(color);
+					Location loc = beadStand.getByColor(color);
+					if (loc != null){
+						beadInfo.setLocation(loc);
+					}
+					data.add(beadInfo);
+					saveIntoHistory(color);
 				}
-			} 
+				mAdapter.addAll(data);
+			}
+			
 		}
 	}
 
