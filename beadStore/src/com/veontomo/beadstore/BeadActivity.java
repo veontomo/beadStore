@@ -95,7 +95,7 @@ public class BeadActivity extends Activity {
 						if (loc != null){
 							beadInfo.setLocation(loc);
 						}
-						mAdapter.add(beadInfo);
+						mAdapter.insert(beadInfo, 0);
 						mAdapter.notifyDataSetChanged();
 						saveIntoHistory(color);
 					}
@@ -119,7 +119,7 @@ public class BeadActivity extends Activity {
 			history = new ArrayList<String>();
 		}
 		Log.i(TAG, "add " + s + " into history");
-		history.add(s);
+		history.add(0, s);
 	}
 
 	@Override
