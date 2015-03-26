@@ -7,4 +7,5 @@
     <string name="beadPosition">posizione</string>
     <string name="beadColorHint">numero del colore</string>
     <string name="searchResult">Risultati di ricerca</string>
+    <string name="beadNotFound">non presente</string>
 </resources>
