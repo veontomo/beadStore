@@ -7,7 +7,8 @@
     <EditText
         android:id="@+id/beadColor"
         style="@style/beadColorInput"
-        android:hint="@string/beadColorHint">
+        android:hint="@string/beadColorHint" >
+
         <requestFocus />
     </EditText>
 
@@ -27,8 +28,14 @@
 
     <ListView
         android:id="@+id/list"
-        android:layout_below="@id/btnBeadFind"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnBeadFind" />
+
+    <TextView
+        android:id="@+id/dumbText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/list" />
 
 </RelativeLayout>

@@ -1,13 +1,30 @@
 package com.veontomo.beadstore;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.lang.reflect.Array;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,51 +40,54 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class BeadActivity extends Activity {
+	private TextView mTextView;
 	/**
-	 * An auxiliary string used to mark log messages 
-	 * during development stage.
+	 * An auxiliary string used to mark log messages during development stage.
+	 * 
 	 * @since 0.1
 	 */
 	final private String TAG = "BeadStore";
-	
+
 	/**
-	 * An adapter used to fill in a View with data of a Bead class instance into view.
+	 * An adapter used to fill in a View with data of a Bead class instance into
+	 * view.
+	 * 
 	 * @since 0.1
 	 */
 	private BeadAdapter mAdapter;
-	
+
 	private BeadStand beadStand = new BeadStand();
-	
-//	private BeadInfo beadInfo = new BeadInfo();
-	
+
+	// private BeadInfo beadInfo = new BeadInfo();
+
 	/**
 	 * Array list in which a history of search requests is stored.
-	 * @since 0.1 
+	 * 
+	 * @since 0.1
 	 */
 	private ArrayList<String> history;
-	
+
 	/**
-	 * A key under which the history of search requests is accessed in the 
-	 * application state (that is, in a Bundle instance). 
+	 * A key under which the history of search requests is accessed in the
+	 * application state (that is, in a Bundle instance).
 	 */
 	private final String KEY = "app_key";
-	
+
 	/**
 	 * A list view whose items visualize Bead instances.
 	 */
 	ListView listView;
-	
-
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bead);
 		
-		
-		
+		mTextView = (TextView) findViewById(R.id.dumbText);
+		new HttpGetTask().execute();
+
 		ArrayList<BeadInfo> data = new ArrayList<BeadInfo>();
-		
+
 		View header = (View) getLayoutInflater().inflate(
 				R.layout.bead_header_layout, null);
 
@@ -88,11 +108,11 @@ public class BeadActivity extends Activity {
 							.trim();
 					if (!color.isEmpty()) {
 						BeadInfo beadInfo = new BeadInfo();
-//						Bead bead = new Bead(color);
+						// Bead bead = new Bead(color);
 						beadInfo.setColorCode(color);
 						Location loc = beadStand.getByColor(color);
 
-						if (loc != null){
+						if (loc != null) {
 							beadInfo.setLocation(loc);
 						}
 						mAdapter.insert(beadInfo, 0);
@@ -108,8 +128,10 @@ public class BeadActivity extends Activity {
 	}
 
 	/**
-	 * Puts string into history. 
-	 * @param s	bead's color code
+	 * Puts string into history.
+	 * 
+	 * @param s
+	 *            bead's color code
 	 * @since 0.1
 	 * @see BeadActivity#history
 	 */
@@ -161,7 +183,7 @@ public class BeadActivity extends Activity {
 
 	@Override
 	protected void onPause() {
-		
+
 		super.onPause();
 		Log.i(TAG,
 				"Another activity is taking focus (this activity is about to be \"paused\")");
@@ -172,14 +194,14 @@ public class BeadActivity extends Activity {
 		if (b != null) {
 			super.onRestoreInstanceState(b);
 			ArrayList<String> savedHistory = b.getStringArrayList(KEY);
-			
-			if (savedHistory != null){
+
+			if (savedHistory != null) {
 				ArrayList<BeadInfo> data = new ArrayList<BeadInfo>();
-				for (String color : savedHistory){
+				for (String color : savedHistory) {
 					BeadInfo beadInfo = new BeadInfo();
 					beadInfo.setColorCode(color);
 					Location loc = beadStand.getByColor(color);
-					if (loc != null){
+					if (loc != null) {
 						beadInfo.setLocation(loc);
 					}
 					data.add(beadInfo);
@@ -187,7 +209,7 @@ public class BeadActivity extends Activity {
 				}
 				mAdapter.addAll(data);
 			}
-			
+
 		}
 	}
 
@@ -202,11 +224,73 @@ public class BeadActivity extends Activity {
 		super.onDestroy();
 		Log.i(TAG, "The activity is about to be destroyed.");
 	}
-	
+
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-	   super.onSaveInstanceState(outState);
-	   outState.putStringArrayList(KEY, history);
+		super.onSaveInstanceState(outState);
+		outState.putStringArrayList(KEY, history);
 	}
+	
+	
+	
+	private class HttpGetTask extends AsyncTask<Void, Void, String> {
 
+		private static final String TAG = "HttpGetTask";
+
+		// Get your own user name at http://www.geonames.org/login
+		private static final String URL = "https://www.ietf.org/rfc/rfc2616.txt";
+
+		@Override
+		protected String doInBackground(Void... params) {
+			String data = "";
+			HttpURLConnection httpUrlConnection = null;
+
+			try {
+				httpUrlConnection = (HttpURLConnection) new URL(URL)
+						.openConnection();
+
+				InputStream in = new BufferedInputStream(
+						httpUrlConnection.getInputStream());
+
+				data = readStream(in);
+
+			} catch (MalformedURLException exception) {
+				Log.e(TAG, "MalformedURLException");
+			} catch (IOException exception) {
+				Log.e(TAG, "IOException");
+			} finally {
+				if (null != httpUrlConnection)
+					httpUrlConnection.disconnect();
+			}
+			return data;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			mTextView.setText(result);
+		}
+
+		private String readStream(InputStream in) {
+			BufferedReader reader = null;
+			StringBuffer data = new StringBuffer("");
+			try {
+				reader = new BufferedReader(new InputStreamReader(in));
+				String line = "";
+				while ((line = reader.readLine()) != null) {
+					data.append(line);
+				}
+			} catch (IOException e) {
+				Log.e(TAG, "IOException");
+			} finally {
+				if (reader != null) {
+					try {
+						reader.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			return data.toString();
+		}
+	}
 }
