@@ -8,4 +8,5 @@
     <string name="beadColorHint">номер коліру</string>
     <string name="searchResult">Результати пошуку</string>
     <string name="beadNotFound">відсутній</string>
+    <string name="beadIconDescr">мініатюра</string>
 </resources>

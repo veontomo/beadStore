@@ -33,8 +33,8 @@ public final class R {
         public static final int bead_row=0x7f080004;
         public static final int btnBeadFind=0x7f080001;
         public static final int colorNumber=0x7f080005;
-        public static final int dumbText=0x7f080003;
-        public static final int list=0x7f080002;
+        public static final int icon=0x7f080002;
+        public static final int list=0x7f080003;
     }
     public static final class layout {
         public static final int activity_bead=0x7f030000;
@@ -48,6 +48,7 @@ public final class R {
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
         public static final int beadColorHint=0x7f050005;
+        public static final int beadIconDescr=0x7f050008;
         public static final int beadNotFound=0x7f050007;
         public static final int beadPosition=0x7f050004;
         public static final int btnFindByColor=0x7f050002;

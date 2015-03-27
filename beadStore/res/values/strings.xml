@@ -8,4 +8,5 @@
     <string name="beadColorHint">color number</string>
     <string name="searchResult">search result</string>
     <string name="beadNotFound">missing</string>
+    <string name="beadIconDescr">bead icon</string>
 </resources>

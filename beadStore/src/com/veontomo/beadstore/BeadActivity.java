@@ -2,9 +2,12 @@ package com.veontomo.beadstore;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,12 +19,19 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -34,13 +44,14 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class BeadActivity extends Activity {
-	private TextView mTextView;
+	private ImageView mImageView;
 	/**
 	 * An auxiliary string used to mark log messages during development stage.
 	 * 
@@ -77,14 +88,12 @@ public class BeadActivity extends Activity {
 	 * A list view whose items visualize Bead instances.
 	 */
 	ListView listView;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bead);
-		
-		mTextView = (TextView) findViewById(R.id.dumbText);
-//		new HttpGetTask().execute();
+		mImageView = (ImageView) findViewById(R.id.icon);
 
 		ArrayList<BeadInfo> data = new ArrayList<BeadInfo>();
 
@@ -107,6 +116,8 @@ public class BeadActivity extends Activity {
 					String color = inputField.getEditableText().toString()
 							.trim();
 					if (!color.isEmpty()) {
+						(new HttpGetTask()).execute(color);
+
 						BeadInfo beadInfo = new BeadInfo();
 						// Bead bead = new Bead(color);
 						beadInfo.setColorCode(color);
@@ -230,44 +241,110 @@ public class BeadActivity extends Activity {
 		super.onSaveInstanceState(outState);
 		outState.putStringArrayList(KEY, history);
 	}
-	
-	
-	
-	private class HttpGetTask extends AsyncTask<Void, Void, String> {
+
+	private class HttpGetTask extends AsyncTask<String, Void, Bitmap> {
 
 		private static final String TAG = "HttpGetTask";
-
-		// Get your own user name at http://www.geonames.org/login
-		private static final String URL = "https://www.ietf.org/rfc/rfc2616.txt";
+		/**
+		 * Location where bead images reside
+		 * 
+		 * @since 0.3
+		 */
+		private static final String IMAGEONLINESTORE = "http://www.preciosaornela.com/catalog/jablonex_traditional_czech_beads/img/rocailles/prod/thread/";
+		private static final String EXTENSION = ".jpg";
 
 		@Override
-		protected String doInBackground(Void... params) {
+		protected Bitmap doInBackground(String... colorCodes) {
+			int count = colorCodes.length;
+			if (count == 0) {
+				Log.i(TAG, "No parameters are given for async task!!!");
+				return null;
+			}
+			Log.i(TAG, "async task has " + count + " parameters.");
+			String beadFileName = colorCodes[0] + HttpGetTask.EXTENSION;
+
+			File dir = Environment.getExternalStorageDirectory();
+			File imgFile = new File(dir, beadFileName);
+			if (imgFile.exists()) {
+				Log.i(TAG, "file " + imgFile.toString() + " exists.");
+				return (Bitmap) BitmapFactory.decodeFile(imgFile
+						.getAbsolutePath());
+			}
+
+			Log.i(TAG, "file " + imgFile.toString() + " does not exist.");
 			String data = "";
+			String imageUrl = IMAGEONLINESTORE + beadFileName;
+			Log.i(TAG, "Downloading file from " + imageUrl);
+
 			HttpURLConnection httpUrlConnection = null;
-
 			try {
-				httpUrlConnection = (HttpURLConnection) new URL(URL)
-						.openConnection();
+				Log.i(TAG, "Inside try-catch block");
+				new DefaultHttpClient()
+						.execute(new HttpGet(imageUrl))
+						.getEntity()
+						.writeTo(
+								new FileOutputStream(
+										new File(dir, beadFileName)));
+				Log.i(TAG, "After downloading");
 
-				InputStream in = new BufferedInputStream(
-						httpUrlConnection.getInputStream());
-
-				data = readStream(in);
-
-			} catch (MalformedURLException exception) {
-				Log.e(TAG, "MalformedURLException");
-			} catch (IOException exception) {
-				Log.e(TAG, "IOException");
+				imgFile = new File(dir, beadFileName);
+				if (imgFile.exists()) {
+					Log.i(TAG, "file " + imgFile.toString() + " now exists.");
+					return (Bitmap) BitmapFactory.decodeFile(imgFile
+							.getAbsolutePath());
+				} 
+				Log.i(TAG, "Give up...");
+				return (Bitmap) BitmapFactory.decodeFile(imgFile
+						.getAbsolutePath());
+			} catch (FileNotFoundException e) {
+				Log.i(TAG, "FileNotFoundException " + e.getMessage());
+			} catch (IOException e) {
+				Log.i(TAG, "IOException " + e.getMessage());
 			} finally {
 				if (null != httpUrlConnection)
 					httpUrlConnection.disconnect();
 			}
-			return data;
+
+			// downloaded file might differ from the original
+			// due to the fact (?) that readStream does not in fact read
+			// requested number of bytes
+			// http://stackoverflow.com/questions/576513/android-download-binary-file-problems
+			
+			
+			
+			// try {
+			// imgFile.createNewFile();
+			// httpUrlConnection = (HttpURLConnection) new URL(imageUrl)
+			// .openConnection();
+			//
+			// InputStream in = new BufferedInputStream(
+			// httpUrlConnection.getInputStream());
+			//
+			// data = readStream(in);
+			//
+			// BufferedWriter writer = new BufferedWriter(new FileWriter(
+			// imgFile, true));
+			// writer.write(data);
+			// writer.close();
+			// imgFile = new File(dir, beadFileName);
+			// return (Bitmap) BitmapFactory.decodeFile(imgFile
+			// .getAbsolutePath());
+			// } catch (MalformedURLException exception) {
+			// Log.e(TAG, "MalformedURLException");
+			// } catch (IOException exception) {
+			// Log.e(TAG, "IOException " + exception.getMessage());
+			// } finally {
+			// if (null != httpUrlConnection)
+			// httpUrlConnection.disconnect();
+			// }
+			Log.i(TAG, "Returning null...");
+			return null;
+
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
-			mTextView.setText(result);
+		protected void onPostExecute(Bitmap image) {
+			mImageView.setImageBitmap(image);
 		}
 
 		private String readStream(InputStream in) {
