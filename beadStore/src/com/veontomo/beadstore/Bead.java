@@ -58,4 +58,8 @@ public class Bead {
 		/// !!! stub
 		return new File("");
 	}
+	
+	public static String canonicalColorCode(String color){
+		return color.replaceAll("(\\d+)[\\s|-]+(\\d+)", "$1/$2");
+	}
 }

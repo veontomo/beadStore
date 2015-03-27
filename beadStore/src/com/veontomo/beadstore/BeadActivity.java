@@ -115,20 +115,21 @@ public class BeadActivity extends Activity {
 					EditText inputField = (EditText) findViewById(R.id.beadColor);
 					String color = inputField.getEditableText().toString()
 							.trim();
-					if (!color.isEmpty()) {
-						(new HttpGetTask()).execute(color);
+					String colorCode = Bead.canonicalColorCode(color);
+					if (!colorCode.isEmpty()) {
+						(new HttpGetTask()).execute(colorCode);
 
 						BeadInfo beadInfo = new BeadInfo();
-						// Bead bead = new Bead(color);
-						beadInfo.setColorCode(color);
-						Location loc = beadStand.getByColor(color);
+						
+						beadInfo.setColorCode(colorCode);
+						Location loc = beadStand.getByColor(colorCode);
 
 						if (loc != null) {
 							beadInfo.setLocation(loc);
 						}
 						mAdapter.insert(beadInfo, 0);
 						mAdapter.notifyDataSetChanged();
-						saveIntoHistory(color);
+						saveIntoHistory(colorCode);
 					}
 					inputField.getEditableText().clear();
 				}
