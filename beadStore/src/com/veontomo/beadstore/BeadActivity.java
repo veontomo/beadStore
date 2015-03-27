@@ -41,6 +41,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -113,6 +114,8 @@ public class BeadActivity extends Activity {
 			public void onClick(View v) {
 				if (mAdapter != null) {
 					EditText inputField = (EditText) findViewById(R.id.beadColor);
+					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(inputField.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
 					String color = inputField.getEditableText().toString()
 							.trim();
 					String colorCode = Bead.canonicalColorCode(color);
@@ -120,7 +123,7 @@ public class BeadActivity extends Activity {
 						(new HttpGetTask()).execute(colorCode);
 
 						BeadInfo beadInfo = new BeadInfo();
-						
+
 						beadInfo.setColorCode(colorCode);
 						Location loc = beadStand.getByColor(colorCode);
 
@@ -293,7 +296,7 @@ public class BeadActivity extends Activity {
 					Log.i(TAG, "file " + imgFile.toString() + " now exists.");
 					return (Bitmap) BitmapFactory.decodeFile(imgFile
 							.getAbsolutePath());
-				} 
+				}
 				Log.i(TAG, "Give up...");
 				return (Bitmap) BitmapFactory.decodeFile(imgFile
 						.getAbsolutePath());
@@ -310,9 +313,7 @@ public class BeadActivity extends Activity {
 			// due to the fact (?) that readStream does not in fact read
 			// requested number of bytes
 			// http://stackoverflow.com/questions/576513/android-download-binary-file-problems
-			
-			
-			
+
 			// try {
 			// imgFile.createNewFile();
 			// httpUrlConnection = (HttpURLConnection) new URL(imageUrl)

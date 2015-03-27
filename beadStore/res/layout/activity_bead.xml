@@ -24,7 +24,7 @@
         android:layout_toRightOf="@+id/beadColor"
         android:text="@string/btnFindByColor"
         android:textColor="#FF7A00"
-        android:textSize="25sp" />
+        android:textSize="15sp" />
      <ImageView
         android:id="@+id/icon"
         android:layout_below="@id/beadColor"
