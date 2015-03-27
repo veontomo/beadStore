@@ -73,46 +73,38 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="11">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="12" name="beadStand"/>      
-      <multiplicity id="13" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="14">    
     <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="15" name="location"/>      
-      <multiplicity id="16" minimum="0" maximum="1"/>    
+      <attribute id="12" name="location"/>      
+      <multiplicity id="13" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="17">    
+  <association id="14">    
     <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="18" name="beadStand"/>      
-      <multiplicity id="19" minimum="0" maximum="1"/>    
+      <attribute id="15" name="beadStand"/>      
+      <multiplicity id="16" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="20">    
+  <nesting id="17">    
     <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="4"/>  
   </nesting>  
-  <association id="21">    
+  <association id="18">    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="22" name="data"/>      
-      <multiplicity id="23" minimum="0" maximum="2147483647"/>    
+      <attribute id="19" name="data"/>      
+      <multiplicity id="20" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="24">    
+  <association id="21">    
     <bendpoint x="345" y="445"/>    
     <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="25" name="colorToLocation"/>      
-      <multiplicity id="26" minimum="0" maximum="2147483647"/>    
+      <attribute id="22" name="colorToLocation"/>      
+      <multiplicity id="23" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  

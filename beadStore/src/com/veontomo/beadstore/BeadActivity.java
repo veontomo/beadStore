@@ -84,7 +84,7 @@ public class BeadActivity extends Activity {
 		setContentView(R.layout.activity_bead);
 		
 		mTextView = (TextView) findViewById(R.id.dumbText);
-		new HttpGetTask().execute();
+//		new HttpGetTask().execute();
 
 		ArrayList<BeadInfo> data = new ArrayList<BeadInfo>();
 
