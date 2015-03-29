@@ -1,40 +1,26 @@
 package com.veontomo.beadstore;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -52,14 +38,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class BeadActivity extends Activity {
-	private ImageView mImageView;
+	ImageView mImageView;
 	/**
 	 * An auxiliary string used to mark log messages during development stage.
 	 * 
 	 * @since 0.1
 	 */
 	final private String TAG = "BeadStore";
-
+	
 	/**
 	 * An adapter used to fill in a View with data of a Bead class instance into
 	 * view.
@@ -114,13 +100,15 @@ public class BeadActivity extends Activity {
 			public void onClick(View v) {
 				if (mAdapter != null) {
 					EditText inputField = (EditText) findViewById(R.id.beadColor);
-					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-					imm.hideSoftInputFromWindow(inputField.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
 					String color = inputField.getEditableText().toString()
 							.trim();
 					String colorCode = Bead.canonicalColorCode(color);
 					if (!colorCode.isEmpty()) {
-						(new HttpGetTask()).execute(colorCode);
+						ImageDownloader imageDownloader = new ImageDownloader();
+						
+						imageDownloader.setImageView(mImageView);
+
+						imageDownloader.execute(colorCode);
 
 						BeadInfo beadInfo = new BeadInfo();
 
@@ -244,132 +232,5 @@ public class BeadActivity extends Activity {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putStringArrayList(KEY, history);
-	}
-
-	private class HttpGetTask extends AsyncTask<String, Void, Bitmap> {
-
-		private static final String TAG = "HttpGetTask";
-		/**
-		 * Location where bead images reside
-		 * 
-		 * @since 0.3
-		 */
-		private static final String IMAGEONLINESTORE = "http://www.preciosaornela.com/catalog/jablonex_traditional_czech_beads/img/rocailles/prod/thread/";
-		private static final String EXTENSION = ".jpg";
-
-		@Override
-		protected Bitmap doInBackground(String... colorCodes) {
-			int count = colorCodes.length;
-			if (count == 0) {
-				Log.i(TAG, "No parameters are given for async task!!!");
-				return null;
-			}
-			Log.i(TAG, "async task has " + count + " parameters.");
-			String beadFileName = colorCodes[0] + HttpGetTask.EXTENSION;
-
-			File dir = Environment.getExternalStorageDirectory();
-			File imgFile = new File(dir, beadFileName);
-			if (imgFile.exists()) {
-				Log.i(TAG, "file " + imgFile.toString() + " exists.");
-				return (Bitmap) BitmapFactory.decodeFile(imgFile
-						.getAbsolutePath());
-			}
-
-			Log.i(TAG, "file " + imgFile.toString() + " does not exist.");
-			String data = "";
-			String imageUrl = IMAGEONLINESTORE + beadFileName;
-			Log.i(TAG, "Downloading file from " + imageUrl);
-
-			HttpURLConnection httpUrlConnection = null;
-			try {
-				Log.i(TAG, "Inside try-catch block");
-				new DefaultHttpClient()
-						.execute(new HttpGet(imageUrl))
-						.getEntity()
-						.writeTo(
-								new FileOutputStream(
-										new File(dir, beadFileName)));
-				Log.i(TAG, "After downloading");
-
-				imgFile = new File(dir, beadFileName);
-				if (imgFile.exists()) {
-					Log.i(TAG, "file " + imgFile.toString() + " now exists.");
-					return (Bitmap) BitmapFactory.decodeFile(imgFile
-							.getAbsolutePath());
-				}
-				Log.i(TAG, "Give up...");
-				return (Bitmap) BitmapFactory.decodeFile(imgFile
-						.getAbsolutePath());
-			} catch (FileNotFoundException e) {
-				Log.i(TAG, "FileNotFoundException " + e.getMessage());
-			} catch (IOException e) {
-				Log.i(TAG, "IOException " + e.getMessage());
-			} finally {
-				if (null != httpUrlConnection)
-					httpUrlConnection.disconnect();
-			}
-
-			// downloaded file might differ from the original
-			// due to the fact (?) that readStream does not in fact read
-			// requested number of bytes
-			// http://stackoverflow.com/questions/576513/android-download-binary-file-problems
-
-			// try {
-			// imgFile.createNewFile();
-			// httpUrlConnection = (HttpURLConnection) new URL(imageUrl)
-			// .openConnection();
-			//
-			// InputStream in = new BufferedInputStream(
-			// httpUrlConnection.getInputStream());
-			//
-			// data = readStream(in);
-			//
-			// BufferedWriter writer = new BufferedWriter(new FileWriter(
-			// imgFile, true));
-			// writer.write(data);
-			// writer.close();
-			// imgFile = new File(dir, beadFileName);
-			// return (Bitmap) BitmapFactory.decodeFile(imgFile
-			// .getAbsolutePath());
-			// } catch (MalformedURLException exception) {
-			// Log.e(TAG, "MalformedURLException");
-			// } catch (IOException exception) {
-			// Log.e(TAG, "IOException " + exception.getMessage());
-			// } finally {
-			// if (null != httpUrlConnection)
-			// httpUrlConnection.disconnect();
-			// }
-			Log.i(TAG, "Returning null...");
-			return null;
-
-		}
-
-		@Override
-		protected void onPostExecute(Bitmap image) {
-			mImageView.setImageBitmap(image);
-		}
-
-		private String readStream(InputStream in) {
-			BufferedReader reader = null;
-			StringBuffer data = new StringBuffer("");
-			try {
-				reader = new BufferedReader(new InputStreamReader(in));
-				String line = "";
-				while ((line = reader.readLine()) != null) {
-					data.append(line);
-				}
-			} catch (IOException e) {
-				Log.e(TAG, "IOException");
-			} finally {
-				if (reader != null) {
-					try {
-						reader.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			return data.toString();
-		}
 	}
 }
