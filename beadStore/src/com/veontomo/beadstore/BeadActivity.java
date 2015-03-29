@@ -45,7 +45,7 @@ public class BeadActivity extends Activity {
 	 * @since 0.1
 	 */
 	final private String TAG = "BeadStore";
-	
+
 	/**
 	 * An adapter used to fill in a View with data of a Bead class instance into
 	 * view.
@@ -98,6 +98,9 @@ public class BeadActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				/// hiding soft keyboard
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 				if (mAdapter != null) {
 					EditText inputField = (EditText) findViewById(R.id.beadColor);
 					String color = inputField.getEditableText().toString()
@@ -105,7 +108,7 @@ public class BeadActivity extends Activity {
 					String colorCode = Bead.canonicalColorCode(color);
 					if (!colorCode.isEmpty()) {
 						ImageDownloader imageDownloader = new ImageDownloader();
-						
+
 						imageDownloader.setImageView(mImageView);
 
 						imageDownloader.execute(colorCode);
