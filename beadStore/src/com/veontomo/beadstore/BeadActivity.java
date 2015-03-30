@@ -189,7 +189,9 @@ public class BeadActivity extends Activity {
 
 	@Override
 	protected void onPause() {
-
+		mImageView = null;
+		mAdapter = null;
+		listView = null;
 		super.onPause();
 		Log.i(TAG,
 				"Another activity is taking focus (this activity is about to be \"paused\")");
