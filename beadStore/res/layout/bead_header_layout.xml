@@ -1,12 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-    <TextView
-        android:text="@string/searchResult"
-        style="@style/titleLine"
-        />
-    
+    android:id="@+id/bead_row"
+    style="@style/beadRow" >
 
+    <TextView
+        android:id="@+id/colorNumber"
+        style="@style/colorNumber"
+        android:text="@string/colorNumber" />
+
+    <TextView
+        android:id="@+id/beadLocationWing"
+        style="@style/beadLocation"
+        android:text="@string/standWing" />
+
+    <ImageView
+        android:id="@+id/beadLocationRow"
+        style="@style/beadLocation" 
+        android:src="@drawable/row"
+        android:contentDescription="@string/beadLocationRowDescr"/>
+
+    <ImageView
+        android:id="@+id/beadLocationColumn"
+        style="@style/beadLocation"
+        android:src="@drawable/column"
+        android:contentDescription="@string/beadLocationColumnDescr"/>
+    
+    
+    <TextView
+        android:id="@+id/beadIconColumn"
+        style="@style/beadIconColumn" />
+    
 </LinearLayout>
