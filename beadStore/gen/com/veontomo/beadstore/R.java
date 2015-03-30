@@ -25,16 +25,18 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f080009;
-        public static final int beadColor=0x7f080000;
-        public static final int beadLocationColumn=0x7f080008;
-        public static final int beadLocationRow=0x7f080007;
-        public static final int beadLocationWing=0x7f080006;
-        public static final int bead_row=0x7f080004;
-        public static final int btnBeadFind=0x7f080001;
-        public static final int colorNumber=0x7f080005;
-        public static final int icon=0x7f080002;
-        public static final int list=0x7f080003;
+        public static final int action_settings=0x7f08000b;
+        public static final int beadColor=0x7f080001;
+        public static final int beadIconColumn=0x7f08000a;
+        public static final int beadLocationColumn=0x7f080009;
+        public static final int beadLocationRow=0x7f080008;
+        public static final int beadLocationWing=0x7f080007;
+        public static final int bead_row=0x7f080005;
+        public static final int btnBeadFind=0x7f080002;
+        public static final int colorNumber=0x7f080006;
+        public static final int fooImage=0x7f080000;
+        public static final int icon=0x7f080003;
+        public static final int list=0x7f080004;
     }
     public static final class layout {
         public static final int activity_bead=0x7f030000;
@@ -80,7 +82,8 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f060001;
-        public static final int beadColorInput=0x7f060007;
+        public static final int beadColorInput=0x7f060008;
+        public static final int beadIconColumn=0x7f060007;
         public static final int beadLocation=0x7f060006;
         public static final int beadRow=0x7f060004;
         public static final int body=0x7f060002;

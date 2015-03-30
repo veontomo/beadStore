@@ -1,11 +1,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/body"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
     android:background="#E0E0E0"
     tools:context="com.veontomo.beadstore.BeadActivity" >
 
+    <ImageView
+        android:id="@+id/fooImage"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content" />
    
     <EditText
+        android:layout_below="@id/fooImage"
         android:id="@+id/beadColor"
         style="@style/beadColorInput"
         android:hint="@string/beadColorHint"

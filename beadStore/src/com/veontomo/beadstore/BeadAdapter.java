@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,13 @@ public class BeadAdapter extends ArrayAdapter<BeadInfo> {
 	Context context;
     int layoutId;   
     ArrayList<BeadInfo> data = null;
+    
+    /**
+     * Image view that holds bead icon
+     * @since 0.4
+     */
+    ImageView beadIcon;
+    
 	/**
 	 *  Constructor
 	 *  @param Context context 
@@ -55,6 +63,7 @@ public class BeadAdapter extends ArrayAdapter<BeadInfo> {
             holder.wing = (TextView) row.findViewById(R.id.beadLocationWing);
             holder.row =  (TextView) row.findViewById(R.id.beadLocationRow);
             holder.col =  (TextView) row.findViewById(R.id.beadLocationColumn);
+            beadIcon = (ImageView) row.findViewById(R.id.beadIconColumn);
             row.setTag(holder);
 		} else {
 			holder = (BeadHolder) row.getTag();
@@ -71,6 +80,16 @@ public class BeadAdapter extends ArrayAdapter<BeadInfo> {
 		return row;
 	}
 	
+	/**
+	 * bead icon getter
+	 * @see BeadAdapter#beadIcon
+	 * @return beadIcon
+	 * @since 0.3
+	 */
+	public ImageView getBeadIcon() {
+		return beadIcon;
+	}
+
 	private void  fillInLocationInfo(BeadHolder holder, Location loc){
         holder.wing.setText(loc.getWing());
         holder.row.setText(String.valueOf(loc.getRow()));

@@ -3,6 +3,7 @@ package com.veontomo.beadstore;
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
@@ -17,10 +18,13 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -92,13 +96,14 @@ public class BeadActivity extends Activity {
 		mAdapter = new BeadAdapter(this, R.layout.bead_layout, data);
 
 		listView.setAdapter(mAdapter);
-
+		
+		
 		Button btn = (Button) findViewById(R.id.btnBeadFind);
 		OnClickListener listener = new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				/// hiding soft keyboard
+				// / hiding soft keyboard
 				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 				if (mAdapter != null) {
@@ -107,16 +112,18 @@ public class BeadActivity extends Activity {
 							.trim();
 					String colorCode = Bead.canonicalColorCode(color);
 					if (!colorCode.isEmpty()) {
-						ImageDownloader imageDownloader = new ImageDownloader();
-
-						imageDownloader.setImageView(mImageView);
-
-						imageDownloader.execute(colorCode);
-
 						BeadInfo beadInfo = new BeadInfo();
-
 						beadInfo.setColorCode(colorCode);
 						Location loc = beadStand.getByColor(colorCode);
+						ImageView beadIcon = mAdapter.getBeadIcon();
+						if (beadIcon != null) {
+							Log.i(TAG, "beadIcon is NOT null, its id is " + String.valueOf(beadIcon.getId()));
+							ImageDownloader imageDownloader = new ImageDownloader();
+							imageDownloader.setImageView(beadIcon);
+							imageDownloader.execute(colorCode);
+						} else {
+							Log.i(TAG, "beadIcon is null");
+						}
 
 						if (loc != null) {
 							beadInfo.setLocation(loc);

@@ -44,7 +44,7 @@ class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
 	public ImageView getImageView(){
 		return this.imageView;
 	}
-	private static final String TAG = "HttpGetTask";
+	private static final String TAG = "ImageDownloader";
 	/**
 	 * Location where bead images reside
 	 * 
@@ -55,6 +55,7 @@ class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
 
 	@Override
 	protected Bitmap doInBackground(String... colorCodes) {
+		Log.i(TAG, "loading image into " + String.valueOf(this.getImageView().getId()));
 		int count = colorCodes.length;
 		if (count == 0) {
 			Log.i(TAG, "No parameters are given for async task!!!");
@@ -142,6 +143,7 @@ class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
 
 	@Override
 	protected void onPostExecute(Bitmap image) {
+		Log.i(TAG, "onPostExecute: loading image");
 		this.getImageView().setImageBitmap(image);
 	}
 

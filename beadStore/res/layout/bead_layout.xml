@@ -19,5 +19,9 @@
     <TextView
         android:id="@+id/beadLocationColumn"
         style="@style/beadLocation" />
-
+    
+    <ImageView
+        android:id="@+id/beadIconColumn"
+        style="@style/beadIconColumn" />
+    
 </LinearLayout>
