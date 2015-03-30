@@ -84,7 +84,6 @@ public class BeadActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bead);
-		mImageView = (ImageView) findViewById(R.id.icon);
 
 		ArrayList<BeadInfo> data = new ArrayList<BeadInfo>();
 
@@ -115,8 +114,17 @@ public class BeadActivity extends Activity {
 						BeadInfo beadInfo = new BeadInfo();
 						beadInfo.setColorCode(colorCode);
 						Location loc = beadStand.getByColor(colorCode);
-						ImageView beadIcon = mAdapter.getBeadIcon();
+						if (loc != null) {
+							beadInfo.setLocation(loc);
+						}
+						mAdapter.insert(beadInfo, 0);
+						mAdapter.notifyDataSetChanged();
+						saveIntoHistory(colorCode);
+						
+						
+						ImageView beadIcon = mAdapter.getIconHolder();
 						if (beadIcon != null) {
+							
 							Log.i(TAG, "beadIcon is NOT null, its id is " + String.valueOf(beadIcon.getId()));
 							ImageDownloader imageDownloader = new ImageDownloader();
 							imageDownloader.setImageView(beadIcon);
@@ -125,12 +133,6 @@ public class BeadActivity extends Activity {
 							Log.i(TAG, "beadIcon is null");
 						}
 
-						if (loc != null) {
-							beadInfo.setLocation(loc);
-						}
-						mAdapter.insert(beadInfo, 0);
-						mAdapter.notifyDataSetChanged();
-						saveIntoHistory(colorCode);
 					}
 					inputField.getEditableText().clear();
 				}

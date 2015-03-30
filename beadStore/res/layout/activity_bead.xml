@@ -6,13 +6,8 @@
     android:background="#E0E0E0"
     tools:context="com.veontomo.beadstore.BeadActivity" >
 
-    <ImageView
-        android:id="@+id/fooImage"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content" />
    
     <EditText
-        android:layout_below="@id/fooImage"
         android:id="@+id/beadColor"
         style="@style/beadColorInput"
         android:hint="@string/beadColorHint"
@@ -32,18 +27,10 @@
         android:text="@string/btnFindByColor"
         android:textColor="#FF7A00"
         android:textSize="15sp" />
-     <ImageView
-        android:id="@+id/icon"
-        android:layout_below="@id/beadColor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/beadIconDescr" />
-    
 
     <ListView
         android:id="@+id/list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/icon" />
+        style="@style/beadList" 
+        android:layout_below="@id/beadColor"/>
 
 </RelativeLayout>

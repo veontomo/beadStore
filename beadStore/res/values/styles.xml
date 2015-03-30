@@ -74,5 +74,9 @@
         <item name="android:inputType">number</item>
         <item name="android:textColor">#7F70D8</item>
     </style>
+    <style name="beadList">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
 
 </resources>

@@ -29,6 +29,7 @@ public class BeadAdapter extends ArrayAdapter<BeadInfo> {
     int layoutId;   
     ArrayList<BeadInfo> data = null;
     
+    
     /**
      * Image view that holds bead icon
      * @since 0.4
@@ -63,11 +64,12 @@ public class BeadAdapter extends ArrayAdapter<BeadInfo> {
             holder.wing = (TextView) row.findViewById(R.id.beadLocationWing);
             holder.row =  (TextView) row.findViewById(R.id.beadLocationRow);
             holder.col =  (TextView) row.findViewById(R.id.beadLocationColumn);
-            beadIcon = (ImageView) row.findViewById(R.id.beadIconColumn);
+            
             row.setTag(holder);
 		} else {
 			holder = (BeadHolder) row.getTag();
 		}
+		beadIcon = (ImageView) row.findViewById(R.id.beadIconColumn);
 		BeadInfo beadInfo = this.data.get(index);
 		holder.colorCode.setText(beadInfo.getColorCode());
 		Location loc = beadInfo.getLocation();
@@ -86,7 +88,7 @@ public class BeadAdapter extends ArrayAdapter<BeadInfo> {
 	 * @return beadIcon
 	 * @since 0.3
 	 */
-	public ImageView getBeadIcon() {
+	public ImageView getIconHolder() {
 		return beadIcon;
 	}
 
