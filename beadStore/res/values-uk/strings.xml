@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Бісерний склад</string>
     <string name="action_settings">Меню</string>
     <string name="btnFindByColor">Знайти</string>
@@ -9,4 +10,8 @@
     <string name="searchResult">Результати пошуку</string>
     <string name="beadNotFound">відсутній</string>
     <string name="beadIconDescr">мініатюра</string>
+    <string name="standWing">Сторона</string>
+    <string name="beadLocationRowDescr">в якому рядку</string>
+    <string name="beadLocationColumnDescr">в якому стовпчику</string>
+
 </resources>
