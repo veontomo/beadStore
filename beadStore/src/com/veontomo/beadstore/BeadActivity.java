@@ -85,7 +85,7 @@ public class BeadActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.bead_search);
 
-		ArrayList<BeadInfo> data = new ArrayList<BeadInfo>();
+		ArrayList<String> data = new ArrayList<String>();
 
 		View header = (View) getLayoutInflater().inflate(
 				R.layout.bead_list_header, null);
@@ -93,11 +93,8 @@ public class BeadActivity extends Activity {
 		listView = (ListView) findViewById(R.id.list);
 		listView.addHeaderView(header);
 		mAdapter = new BeadAdapter(this, data);
-		Log.i(TAG, "mAdapter has " + mAdapter.getViewTypeCount() + " types");
-
 		listView.setAdapter(mAdapter);
-		
-		
+
 		Button btn = (Button) findViewById(R.id.btnBeadFind);
 		OnClickListener listener = new OnClickListener() {
 
@@ -112,27 +109,9 @@ public class BeadActivity extends Activity {
 							.trim();
 					String colorCode = Bead.canonicalColorCode(color);
 					if (!colorCode.isEmpty()) {
-						BeadInfo beadInfo = new BeadInfo();
-						beadInfo.setColorCode(colorCode);
-						Location loc = beadStand.getByColor(colorCode);
-						if (loc != null) {
-							beadInfo.setLocation(loc);
-						}
-						mAdapter.insert(beadInfo, 0);
+						mAdapter.insert(colorCode, 0);
 						mAdapter.notifyDataSetChanged();
 						saveIntoHistory(colorCode);
-						
-						
-						ImageView beadIcon = mAdapter.getIconHolder();
-						if (beadIcon != null) {
-							
-							Log.i(TAG, "beadIcon is NOT null, its id is " + String.valueOf(beadIcon.getId()));
-							ImageDownloader imageDownloader = new ImageDownloader();
-							imageDownloader.setImageView(beadIcon);
-							imageDownloader.execute(colorCode);
-						} else {
-							Log.i(TAG, "beadIcon is null");
-						}
 
 					}
 					inputField.getEditableText().clear();
@@ -214,15 +193,9 @@ public class BeadActivity extends Activity {
 			ArrayList<String> savedHistory = b.getStringArrayList(KEY);
 
 			if (savedHistory != null) {
-				ArrayList<BeadInfo> data = new ArrayList<BeadInfo>();
+				ArrayList<String> data = new ArrayList<String>();
 				for (String color : savedHistory) {
-					BeadInfo beadInfo = new BeadInfo();
-					beadInfo.setColorCode(color);
-					Location loc = beadStand.getByColor(color);
-					if (loc != null) {
-						beadInfo.setLocation(loc);
-					}
-					data.add(beadInfo);
+					data.add(color);
 					saveIntoHistory(color);
 				}
 				mAdapter.addAll(data);

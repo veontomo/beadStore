@@ -14,100 +14,82 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Adapter to fill in items of list view with bead data 
+ * Adapter to fill in items of list view with bead data
+ * 
  * @author veontomo@gmail.com
  * @since 0.1
  */
-public class BeadAdapter extends ArrayAdapter<BeadInfo> {
+public class BeadAdapter extends ArrayAdapter<String> {
 	private final static int BEAD_EXISTS = R.layout.bead_existing;
 	private final static int BEAD_NOT_EXISTS = R.layout.bead_missing;
-	private static class BeadHolder {
-		TextView colorCode;
-		TextView wing;
-		TextView row;
-		TextView col;
-	}
-	Context context;
-    ArrayList<BeadInfo> data = null;
-    
-    
-    /**
-     * Image view that holds bead icon
-     * @since 0.4
-     */
-    ImageView beadIcon;
-    
+
+	private final static BeadStand beadStand = new BeadStand();
+
 	/**
-	 *  Constructor
-	 *  @param Context context 
-	 *  @param int layoutId     id of the layout in which info about each bead should be loaded  
-	 *  @param Bead[] beads     array of Bead instances
-	 *  @since 0.1
+	 * An auxiliary string used to mark log messages during development stage.
+	 * 
+	 * @since 0.1
 	 */
-	public BeadAdapter(Context context, ArrayList<BeadInfo> beadInfo) {
-		 super(context, BEAD_EXISTS, beadInfo);
-		 this.context = context;
-		 this.data = beadInfo;
+	final private String TAG = "BeadStore";
+
+	Context context;
+	ArrayList<String> data = null;
+
+	/**
+	 * Image view that holds bead icon
+	 * 
+	 * @since 0.4
+	 */
+	ImageView beadIcon;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param Context
+	 *            context
+	 * @param int layoutId id of the layout in which info about each bead should
+	 *        be loaded
+	 * @param Bead
+	 *            [] beads array of Bead instances
+	 * @since 0.1
+	 */
+	public BeadAdapter(Context context, ArrayList<String> beadCodes) {
+		super(context, BEAD_EXISTS, beadCodes);
+		this.context = context;
+		this.data = beadCodes;
 	}
-	
+
 	@Override
-	public int getViewTypeCount(){
-		return 2;
-	}
-	
-	@Override
-	public View getView(int index, View rowView, ViewGroup parent){
+	public View getView(int index, View rowView, ViewGroup parent) {
 		View row = rowView;
-		BeadHolder holder = null;
-		
-		if (row == null){
-			LayoutInflater inflater = ((Activity) this.context).getLayoutInflater();
-            row = inflater.inflate(BEAD_EXISTS, parent, false);
-           
-            holder = new BeadHolder();
-            holder.colorCode = (TextView) row.findViewById(R.id.colorNumber);
-            holder.wing = (TextView) row.findViewById(R.id.beadLocationWing);
-            holder.row =  (TextView) row.findViewById(R.id.beadLocationRow);
-            holder.col =  (TextView) row.findViewById(R.id.beadLocationColumn);
-            
-            row.setTag(holder);
+		String beadColorCode = this.data.get(index);
+		Location loc = null;
+		loc = beadStand.getByColor(beadColorCode);
+		LayoutInflater inflater = ((Activity) this.context).getLayoutInflater();
+		TextView beadColor;
+		if (loc == null) {
+			row = inflater.inflate(BEAD_NOT_EXISTS, parent, false);
+			beadColor = (TextView) row.findViewById(R.id.colorNumber);
+			beadColor.setText(beadColorCode);
 		} else {
-			holder = (BeadHolder) row.getTag();
+			row = inflater.inflate(BEAD_EXISTS, parent, false);
+			beadColor = (TextView) row.findViewById(R.id.colorNumber);
+			beadColor.setText(beadColorCode);
+
+			TextView beadWing = (TextView) row
+					.findViewById(R.id.beadLocationWing);
+			beadWing.setText(loc.getWing());
+			TextView beadColumn = (TextView) row
+					.findViewById(R.id.beadLocationColumn);
+			beadColumn.setText(String.valueOf(loc.getCol()));
+
+			TextView beadRow = (TextView) row
+					.findViewById(R.id.beadLocationRow);
+			beadRow.setText(String.valueOf(loc.getRow()));
+
 		}
-		beadIcon = (ImageView) row.findViewById(R.id.beadIconColumn);
-		BeadInfo beadInfo = this.data.get(index);
-		holder.colorCode.setText(beadInfo.getColorCode());
-		Location loc = beadInfo.getLocation();
-		if (loc != null){
-			fillInLocationInfo(holder, loc);
-		} else {
-			fillInLocationNotFound(holder, context.getResources().getString(R.string.beadNotFound));
-		}
-		
+
 		return row;
 	}
-	
-	/**
-	 * bead icon getter
-	 * @see BeadAdapter#beadIcon
-	 * @return beadIcon
-	 * @since 0.3
-	 */
-	public ImageView getIconHolder() {
-		return beadIcon;
-	}
-
-	private void  fillInLocationInfo(BeadHolder holder, Location loc){
-        holder.wing.setText(loc.getWing());
-        holder.row.setText(String.valueOf(loc.getRow()));
-        holder.col.setText(String.valueOf(loc.getCol()));
-	}
-	
-	private void  fillInLocationNotFound(BeadHolder holder, String message){
-        holder.wing.setText(message);
-        holder.row.setText("");
-        holder.col.setText("");
-	}
-
 
 }

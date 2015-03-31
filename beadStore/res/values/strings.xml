@@ -11,4 +11,5 @@
     <string name="standWing">wing</string>
     <string name="beadLocationRowDescr">in which row the bead is located</string>
     <string name="beadLocationColumnDescr">in which column the bead is located</string>
+    <string name="colorNumberMissing">!!!!!!</string>
 </resources>

@@ -58,13 +58,15 @@ public final class R {
         public static final int beadPosition=0x7f050004;
         public static final int btnFindByColor=0x7f050002;
         public static final int colorNumber=0x7f050003;
-        public static final int searchResult=0x7f05000b;
+        public static final int colorNumberMissing=0x7f05000b;
+        public static final int searchResult=0x7f05000c;
         public static final int standWing=0x7f050008;
     }
     public static final class style {
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+
 
 
 
@@ -86,14 +88,17 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f060001;
-        public static final int beadColorInput=0x7f060008;
-        public static final int beadIconColumn=0x7f060007;
-        public static final int beadList=0x7f06000a;
-        public static final int beadLocation=0x7f060006;
+        public static final int beadColorInput=0x7f06000b;
+        public static final int beadIconColumn=0x7f060009;
+        public static final int beadIconColumnMissing=0x7f06000a;
+        public static final int beadList=0x7f06000d;
+        public static final int beadLocation=0x7f060008;
         public static final int beadRow=0x7f060004;
+        public static final int beadRowMissing=0x7f060005;
         public static final int body=0x7f060002;
-        public static final int btnBeadFind=0x7f060009;
-        public static final int colorNumber=0x7f060005;
+        public static final int btnBeadFind=0x7f06000c;
+        public static final int colorNumber=0x7f060006;
+        public static final int colorNumberMissing=0x7f060007;
         public static final int titleLine=0x7f060003;
     }
 }
