@@ -6,10 +6,9 @@
     <string name="colorNumber">color</string>
     <string name="beadPosition">position</string>
     <string name="beadColorHint">color code</string>
-    <string name="beadNotFound">missing</string>
+    <string name="colorNotFound">missing</string>
     <string name="beadIconDescr">bead icon</string>
     <string name="standWing">wing</string>
-    <string name="beadLocationRowDescr">in which row the bead is located</string>
-    <string name="beadLocationColumnDescr">in which column the bead is located</string>
-    <string name="colorNumberMissing">!!!!!!</string>
+    <string name="standColumn">column</string>
+    <string name="standRow">row</string>
 </resources>

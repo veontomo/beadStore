@@ -10,8 +10,8 @@
     <string name="searchResult">Результати пошуку</string>
     <string name="beadNotFound">відсутній</string>
     <string name="beadIconDescr">мініатюра</string>
-    <string name="standWing">Сторона</string>
-    <string name="beadLocationRowDescr">в якому рядку</string>
-    <string name="beadLocationColumnDescr">в якому стовпчику</string>
+    <string name="standWing">сторона</string>
+    <string name="standColumn">стовпчик</string>
+    <string name="standRow">рядок</string>
 
 </resources>

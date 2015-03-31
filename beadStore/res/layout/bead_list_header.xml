@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/bead_row"
-    style="@style/beadRow" >
+    style="@style/beadRowHeader" >
 
     <TextView
         android:id="@+id/colorNumber"
@@ -13,21 +13,14 @@
         style="@style/beadLocation"
         android:text="@string/standWing" />
 
-    <ImageView
-        android:id="@+id/beadLocationRow"
-        style="@style/beadLocation" 
-        android:src="@drawable/row"
-        android:contentDescription="@string/beadLocationRowDescr"/>
-
-    <ImageView
-        android:id="@+id/beadLocationColumn"
-        style="@style/beadLocation"
-        android:src="@drawable/column"
-        android:contentDescription="@string/beadLocationColumnDescr"/>
-    
-    
     <TextView
-        android:id="@+id/beadIconColumn"
-        style="@style/beadIconColumn" />
+        android:id="@+id/beadLocationRow"
+        style="@style/beadLocation"
+        android:text = "@string/standRow" />
+
+    <TextView
+        android:id="@+id/beadLocationColumn"
+        style="@style/beadLocation" 
+        android:text = "@string/standColumn"/>
     
 </LinearLayout>
