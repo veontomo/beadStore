@@ -19,6 +19,8 @@ import android.widget.Toast;
  * @since 0.1
  */
 public class BeadAdapter extends ArrayAdapter<BeadInfo> {
+	private final static int BEAD_EXISTS = R.layout.bead_existing;
+	private final static int BEAD_NOT_EXISTS = R.layout.bead_missing;
 	private static class BeadHolder {
 		TextView colorCode;
 		TextView wing;
@@ -26,7 +28,6 @@ public class BeadAdapter extends ArrayAdapter<BeadInfo> {
 		TextView col;
 	}
 	Context context;
-    int layoutId;   
     ArrayList<BeadInfo> data = null;
     
     
@@ -43,11 +44,15 @@ public class BeadAdapter extends ArrayAdapter<BeadInfo> {
 	 *  @param Bead[] beads     array of Bead instances
 	 *  @since 0.1
 	 */
-	public BeadAdapter(Context context, int layoutId, ArrayList<BeadInfo> beadInfo) {
-		 super(context, layoutId, beadInfo);
+	public BeadAdapter(Context context, ArrayList<BeadInfo> beadInfo) {
+		 super(context, BEAD_EXISTS, beadInfo);
 		 this.context = context;
-		 this.layoutId = layoutId;
 		 this.data = beadInfo;
+	}
+	
+	@Override
+	public int getViewTypeCount(){
+		return 2;
 	}
 	
 	@Override
@@ -57,7 +62,7 @@ public class BeadAdapter extends ArrayAdapter<BeadInfo> {
 		
 		if (row == null){
 			LayoutInflater inflater = ((Activity) this.context).getLayoutInflater();
-            row = inflater.inflate(layoutId, parent, false);
+            row = inflater.inflate(BEAD_EXISTS, parent, false);
            
             holder = new BeadHolder();
             holder.colorCode = (TextView) row.findViewById(R.id.colorNumber);
@@ -104,6 +109,5 @@ public class BeadAdapter extends ArrayAdapter<BeadInfo> {
         holder.col.setText("");
 	}
 
-	
 
 }

@@ -73,7 +73,7 @@ public class BeadActivity extends Activity {
 	 * A key under which the history of search requests is accessed in the
 	 * application state (that is, in a Bundle instance).
 	 */
-	private final String KEY = "app_key";
+	private final String KEY = this.getClass().getName();
 
 	/**
 	 * A list view whose items visualize Bead instances.
@@ -92,7 +92,8 @@ public class BeadActivity extends Activity {
 
 		listView = (ListView) findViewById(R.id.list);
 		listView.addHeaderView(header);
-		mAdapter = new BeadAdapter(this, R.layout.bead_existing, data);
+		mAdapter = new BeadAdapter(this, data);
+		Log.i(TAG, "mAdapter has " + mAdapter.getViewTypeCount() + " types");
 
 		listView.setAdapter(mAdapter);
 		
