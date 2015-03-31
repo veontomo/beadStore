@@ -83,16 +83,16 @@ public class BeadActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_bead);
+		setContentView(R.layout.bead_search);
 
 		ArrayList<BeadInfo> data = new ArrayList<BeadInfo>();
 
 		View header = (View) getLayoutInflater().inflate(
-				R.layout.bead_header_layout, null);
+				R.layout.bead_list_header, null);
 
 		listView = (ListView) findViewById(R.id.list);
 		listView.addHeaderView(header);
-		mAdapter = new BeadAdapter(this, R.layout.bead_layout, data);
+		mAdapter = new BeadAdapter(this, R.layout.bead_existing, data);
 
 		listView.setAdapter(mAdapter);
 		
