@@ -1,14 +1,18 @@
 package com.veontomo.beadstore;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -87,7 +91,9 @@ public class BeadActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.bead_search);
 
-		
+		// example();
+		donwload();
+
 		ArrayList<String> data = new ArrayList<String>();
 
 		View header = (View) getLayoutInflater().inflate(
@@ -125,6 +131,76 @@ public class BeadActivity extends Activity {
 
 	}
 
+	
+	// TODO
+	// move this code into a separate thread of AsyncTask
+	// otherwise it crashes
+	
+	private void donwload() {
+		URL url;
+		try {
+			url = new URL("http://www.android.com/");
+			HttpURLConnection urlConnection = (HttpURLConnection) url
+					.openConnection();
+			if (urlConnection == null){
+				Log.i(TAG, "conection is null");
+				return;
+			}
+			try {
+				InputStream inStream = urlConnection.getInputStream();
+				if (null == inStream){
+					Log.i(TAG, "input stream is null");
+					return;
+				}
+
+				InputStream in = new BufferedInputStream(inStream);
+				String res = readStream(in); 
+				if (res == null){
+					Log.i(TAG, "buffered input stream is null");
+					return;
+				}
+				 Log.i(TAG, res);
+			} catch (Throwable  e){
+				Log.i(TAG, "exception: " + e.getMessage());
+				e.printStackTrace();
+			} 
+			finally {
+				urlConnection.disconnect();
+
+			}
+
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	private String readStream(InputStream in) {
+		BufferedReader reader = null;
+		StringBuffer data = new StringBuffer("");
+		try {
+			reader = new BufferedReader(new InputStreamReader(in));
+			String line = "";
+			while ((line = reader.readLine()) != null) {
+				data.append(line);
+			}
+		} catch (IOException e) {
+			Log.e(TAG, "IOException");
+		} finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return data.toString();
+	}
 	
 
 	/**
@@ -226,4 +302,63 @@ public class BeadActivity extends Activity {
 		super.onSaveInstanceState(outState);
 		outState.putStringArrayList(KEY, history);
 	}
+
+	/**
+	 * Example of usage of image crop
+	 */
+	public void example() {
+		File path = new File(Environment.getExternalStorageDirectory(), TAG
+				+ "/10050.jpg");
+		Bitmap image = (Bitmap) BitmapFactory
+				.decodeFile(path.getAbsolutePath());
+		Bitmap cropped = cropImage(image);
+		saveBitmapAs(cropped, "cropped_image.jpg");
+		int[] pixels = new int[image.getHeight() * image.getWidth()];
+		image.getPixels(pixels, 0, image.getWidth(), 0, 0,
+				image.getWidth() - 1, image.getHeight());
+
+	}
+
+	/**
+	 * Example of cropping bitmap
+	 * 
+	 * @param image
+	 */
+	public Bitmap cropImage(final Bitmap image) {
+		Log.i(TAG,
+				String.valueOf(image.getHeight()) + " x "
+						+ String.valueOf(image.getWidth()));
+		float horOffset = 0.1f;
+		float verOffset = 0.3f;
+		int left = (int) (image.getWidth() * horOffset);
+		int width = (int) (image.getWidth() * (1 - 2 * horOffset));
+		int top = (int) (image.getHeight() * verOffset);
+		int height = (int) (image.getHeight() * (1 - 2 * verOffset));
+
+		Bitmap cropped = Bitmap.createBitmap(image, left, top, width, height);
+
+		return cropped;
+	}
+
+	public void saveBitmapAs(Bitmap bitmap, String name) {
+
+		FileOutputStream out = null;
+		try {
+			File f = new File(Environment.getExternalStorageDirectory(), name);
+			out = new FileOutputStream(f);
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 40, out);
+			out.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (out != null) {
+					out.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+	};
 }

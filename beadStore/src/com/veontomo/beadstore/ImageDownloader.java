@@ -63,17 +63,6 @@ class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
 		}
 	}
 	
-	/**
-	 * Example of usage of image crop
-	 */
-	public void example(){
-		File path = new File(Environment.getExternalStorageDirectory(), TAG
-				+ "/10050.jpg");
-		Bitmap image = (Bitmap) BitmapFactory
-				.decodeFile(path.getAbsolutePath());
-		cropImage(image);
-
-	}
 	
 	/**
 	 * image view getter
@@ -211,41 +200,5 @@ class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
 	}
 	
 	
-	/**
-	 * Example of cropping bitmap
-	 * @param image
-	 */
-	public void cropImage(final Bitmap image) {
-		Log.i(TAG,
-				String.valueOf(image.getHeight()) + " x "
-						+ String.valueOf(image.getWidth()));
-		float horOffset = 0.1f;
-		float verOffset = 0.3f;
-		int left = (int) (image.getWidth() * horOffset);
-		int width = (int) (image.getWidth() * (1 - 2 * horOffset));
-		int top = (int) (image.getHeight() * verOffset);
-		int height = (int) (image.getHeight() * (1 - 2 * verOffset));
 
-		Bitmap cropped = Bitmap.createBitmap(image, left, top,	width, height);
-
-		FileOutputStream out = null;
-		try {
-			File f = new File(Environment.getExternalStorageDirectory(), TAG
-					+ "/10050__1.jpg");
-			out = new FileOutputStream(f);
-			cropped.compress(Bitmap.CompressFormat.JPEG, 40, out);
-			out.flush();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (out != null) {
-					out.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-	};
 }
