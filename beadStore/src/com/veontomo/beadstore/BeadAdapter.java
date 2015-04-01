@@ -34,13 +34,10 @@ public class BeadAdapter extends ArrayAdapter<String> {
 
 	Context context;
 	ArrayList<String> data = null;
+	
+	ImageDownloader imageDownloader;
 
-	/**
-	 * Image view that holds bead icon
-	 * 
-	 * @since 0.4
-	 */
-	ImageView beadIcon;
+	
 
 	/**
 	 * Constructor
@@ -71,6 +68,10 @@ public class BeadAdapter extends ArrayAdapter<String> {
 			row = inflater.inflate(BEAD_NOT_EXISTS, parent, false);
 			beadColor = (TextView) row.findViewById(R.id.colorNumber);
 			beadColor.setText(beadColorCode);
+			imageDownloader = new ImageDownloader();
+			imageDownloader.setImageView((ImageView) row.findViewById(R.id.beadIconColumn));
+			imageDownloader.execute(beadColorCode);
+			
 		} else {
 			row = inflater.inflate(BEAD_EXISTS, parent, false);
 			beadColor = (TextView) row.findViewById(R.id.colorNumber);
