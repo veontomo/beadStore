@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.net.MalformedURLException;
@@ -84,6 +85,10 @@ public class BeadActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.bead_search);
+		
+		
+		
+		
 
 		ArrayList<String> data = new ArrayList<String>();
 

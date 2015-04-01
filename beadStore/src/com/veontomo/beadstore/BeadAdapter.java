@@ -70,6 +70,7 @@ public class BeadAdapter extends ArrayAdapter<String> {
 			beadColor.setText(beadColorCode);
 			imageDownloader = new ImageDownloader();
 			imageDownloader.setImageView((ImageView) row.findViewById(R.id.beadIconColumn));
+			imageDownloader.setDir(TAG);
 			imageDownloader.execute(beadColorCode);
 			
 		} else {

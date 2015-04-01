@@ -20,6 +20,13 @@ import android.util.Log;
 import android.widget.ImageView;
 
 class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
+	
+	/**
+	 * A path to a folder in which downloaded files are to be saved.
+	 * 
+	 * @since 0.4 
+	 */
+	private File appDir;
 
 	/**
 	 * image view into which the downloaded image should be displayed
@@ -34,6 +41,26 @@ class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
 	 */
 	public void setImageView(ImageView im){
 		this.imageView = im;
+	}
+	
+	/**
+	 * Tries to create a folder (if it does not exist) inside external storage directory where 
+	 * to store downloaded images. 
+	 * @param appDir
+	 * @param mImageView
+	 * @since 0.4
+	 */
+	public void setDir(String appDir){
+		File dir = new File(Environment.getExternalStorageDirectory(), appDir);
+		if (!dir.exists()){
+			if (dir.mkdir()){
+				this.appDir = dir;
+			} else {
+				Log.i(TAG, "Can not create directory " + dir.toString());
+			}
+		} else {
+			this.appDir = dir;
+		}
 	}
 	
 	/**
@@ -64,7 +91,8 @@ class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
 		Log.i(TAG, "async task has " + count + " parameters.");
 		String beadFileName = colorCodes[0] + ImageDownloader.EXTENSION;
 
-		File dir = Environment.getExternalStorageDirectory();
+		File dir = this.appDir;
+		Log.i(TAG, dir.toString());
 		File imgFile = new File(dir, beadFileName);
 		if (imgFile.exists()) {
 			Log.i(TAG, "file " + imgFile.toString() + " exists.");
