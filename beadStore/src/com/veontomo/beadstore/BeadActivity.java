@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -85,11 +86,8 @@ public class BeadActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.bead_search);
-		
-		
-		
-		
 
+		
 		ArrayList<String> data = new ArrayList<String>();
 
 		View header = (View) getLayoutInflater().inflate(
@@ -126,6 +124,8 @@ public class BeadActivity extends Activity {
 		btn.setOnClickListener(listener);
 
 	}
+
+	
 
 	/**
 	 * Puts string into history.
