@@ -17,6 +17,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.http.client.ClientProtocolException;
 
@@ -29,6 +31,7 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -92,7 +95,7 @@ public class BeadActivity extends Activity {
 		setContentView(R.layout.bead_search);
 
 		// example();
-		donwload();
+		download();
 
 		ArrayList<String> data = new ArrayList<String>();
 
@@ -131,76 +134,80 @@ public class BeadActivity extends Activity {
 
 	}
 
-	
-	// TODO
-	// move this code into a separate thread of AsyncTask
-	// otherwise it crashes
-	
-	private void donwload() {
-		URL url;
-		try {
-			url = new URL("http://www.android.com/");
-			HttpURLConnection urlConnection = (HttpURLConnection) url
-					.openConnection();
-			if (urlConnection == null){
-				Log.i(TAG, "conection is null");
-				return;
-			}
+	class Downloader extends AsyncTask<URL, Void, String> {
+		@Override
+		public String doInBackground(URL... urls) {
+			URL url = urls[0];
+            String data = null;
 			try {
-				InputStream inStream = urlConnection.getInputStream();
-				if (null == inStream){
-					Log.i(TAG, "input stream is null");
-					return;
-				}
-
-				InputStream in = new BufferedInputStream(inStream);
-				String res = readStream(in); 
-				if (res == null){
-					Log.i(TAG, "buffered input stream is null");
-					return;
-				}
-				 Log.i(TAG, res);
-			} catch (Throwable  e){
-				Log.i(TAG, "exception: " + e.getMessage());
+	            HttpURLConnection urlConnection =  (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("HEAD");
+                Log.i(TAG, String.valueOf(urlConnection.getResponseCode()));
+                if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                	Log.i(TAG, "response OK");
+    				InputStream inStream = urlConnection.getInputStream();
+//    				InputStream in = new BufferedInputStream(inStream);
+    				data = readStream(inStream);
+//
+//    				data = readStream(in);
+                } else {
+                	Log.i(TAG, "response is NOT OK");
+                }
+                urlConnection.disconnect();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} 
-			finally {
-				urlConnection.disconnect();
-
 			}
-
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return data;
 		}
 
-	}
-	
-	private String readStream(InputStream in) {
-		BufferedReader reader = null;
-		StringBuffer data = new StringBuffer("");
-		try {
-			reader = new BufferedReader(new InputStreamReader(in));
-			String line = "";
-			while ((line = reader.readLine()) != null) {
-				data.append(line);
-			}
-		} catch (IOException e) {
-			Log.e(TAG, "IOException");
-		} finally {
-			if (reader != null) {
-				try {
-					reader.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+		@Override
+		public void onPostExecute(String data) {
+			Log.i(TAG, "onPostExecute data");
+			Log.i(TAG, data != null ? "data size = " + String.valueOf(data.length()) : "no data");
+		}
+		
+		private String readStream(InputStream in) {
+			Log.i(TAG, "reading stream");
+			BufferedReader reader = null;
+			StringBuffer data = new StringBuffer("");
+			try {
+				reader = new BufferedReader(new InputStreamReader(in));
+				String line = "";
+				line = reader.readLine();
+				while (line != null) {
+					Log.i(TAG, "read line: " + line + ", of length " + String.valueOf(line.length()));
+					Log.i(TAG, "appending line of length " + line.length() );
+					data.append(line);
+				}
+			} catch (IOException e) {
+				Log.e(TAG, "IOException");
+			} finally {
+				if (reader != null) {
+					try {
+						reader.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
+			return data.toString();
 		}
-		return data.toString();
 	}
+
+	private void download() {
+		URL url;
+			try {
+				url = new URL("http://www.android.com/");
+				(new Downloader()).execute(url);
+			} catch (MalformedURLException e) {
+				Log.e(TAG, "Error! " + e.getMessage());
+//				e.printStackTrace();
+			}
+		
+		
+	}
+
 	
 
 	/**
