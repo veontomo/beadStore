@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bead_row"
+    style="@style/beadRowMissing" >
+
+    <TextView
+        android:id="@+id/colorNumber"
+        style="@style/colorNumber"
+        android:text="@string/colorNumber" />
+
+    <ImageView
+        android:id="@+id/beadIconColumn"
+        style="@style/beadIconColumn" />
+    
+</LinearLayout>

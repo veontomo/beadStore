@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bead_row"
+    style="@style/beadRowHeader" >
+
+    <TextView
+        android:id="@+id/colorNumber"
+        style="@style/colorNumber"
+        android:text="@string/colorNumber" />
+
+    <TextView
+        android:id="@+id/beadLocationWing"
+        style="@style/beadLocation"
+        android:text="@string/standWing" />
+
+    <TextView
+        android:id="@+id/beadLocationRow"
+        style="@style/beadLocation"
+        android:text = "@string/standRow" />
+
+    <TextView
+        android:id="@+id/beadLocationColumn"
+        style="@style/beadLocation" 
+        android:text = "@string/standColumn"/>
+    
+</LinearLayout>

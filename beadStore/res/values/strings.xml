@@ -5,8 +5,10 @@
     <string name="btnFindByColor">Find</string>
     <string name="colorNumber">color</string>
     <string name="beadPosition">position</string>
-    <string name="beadColorHint">color number</string>
-    <string name="searchResult">search result</string>
-    <string name="beadNotFound">missing</string>
+    <string name="beadColorHint">color code</string>
+    <string name="colorNotFound">missing</string>
     <string name="beadIconDescr">bead icon</string>
+    <string name="standWing">wing</string>
+    <string name="standColumn">column</string>
+    <string name="standRow">row</string>
 </resources>
