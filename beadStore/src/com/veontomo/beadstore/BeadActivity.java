@@ -134,71 +134,77 @@ public class BeadActivity extends Activity {
 
 	}
 
-	class Downloader extends AsyncTask<URL, Void, String> {
+	class Downloader extends AsyncTask<URL, Void, Bitmap> {
 		@Override
-		public String doInBackground(URL... urls) {
+		public Bitmap doInBackground(URL... urls) {
+			Log.i(TAG, "inside downloader");
 			URL url = urls[0];
-            String data = null;
+            InputStream inputStream = null;
+            Bitmap image = null;
+            HttpURLConnection connection = null;
 			try {
-	            HttpURLConnection urlConnection =  (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("HEAD");
-                Log.i(TAG, String.valueOf(urlConnection.getResponseCode()));
-                if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                	Log.i(TAG, "response OK");
-    				InputStream inStream = urlConnection.getInputStream();
-//    				InputStream in = new BufferedInputStream(inStream);
-    				data = readStream(inStream);
-//
-//    				data = readStream(in);
-                } else {
+	            connection = (HttpURLConnection) url.openConnection();
+	            connection.setReadTimeout(10000 /* milliseconds */);
+	            connection.setConnectTimeout(15000 /* milliseconds */);
+	            connection.setRequestMethod("GET");
+	            connection.setDoInput(true);
+	            connection.connect();
+                Log.i(TAG, String.valueOf(connection.getResponseCode()));
+                int response = connection.getResponseCode();
+                if (response != HttpURLConnection.HTTP_OK) {
                 	Log.i(TAG, "response is NOT OK");
+                    return null;
                 }
-                urlConnection.disconnect();
+            	Log.i(TAG, "response OK");
+				inputStream = connection.getInputStream();
+				image = BitmapFactory.decodeStream(inputStream);
+				if (image == null){
+					Log.i(TAG, "url does not correspond to an image");
+				} else {
+					Log.i(TAG, "image size: " + String.valueOf(image.getHeight()) + " x " + image.getWidth());
+					
+				}
+				
+//				data = readStream(inputStream);
+				Log.i(TAG, "Disconnecting and closing");
+				
+				inputStream.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}  finally {
+				if (connection != null){
+					connection.disconnect();
+				}
 			}
-			return data;
+			Bitmap imageCropped = cropBitmap(image);
+			return imageCropped;
+		}
+
+		/**
+		 * Auto crop image.
+		 * <p> Detects white margins and remove them.</p>
+		 * @param image     Bitmap instance
+		 * @return Bitmap
+		 */
+		private Bitmap cropBitmap(Bitmap image) {
+			/// !!! stub
+			return image;
 		}
 
 		@Override
-		public void onPostExecute(String data) {
+		public void onPostExecute(Bitmap image) {
 			Log.i(TAG, "onPostExecute data");
-			Log.i(TAG, data != null ? "data size = " + String.valueOf(data.length()) : "no data");
+			Log.i(TAG, image != null ?  "image size: " + String.valueOf(image.getHeight()) + " x " + image.getWidth() : "no image");
 		}
 		
-		private String readStream(InputStream in) {
-			Log.i(TAG, "reading stream");
-			BufferedReader reader = null;
-			StringBuffer data = new StringBuffer("");
-			try {
-				reader = new BufferedReader(new InputStreamReader(in));
-				String line = "";
-				line = reader.readLine();
-				while (line != null) {
-					Log.i(TAG, "read line: " + line + ", of length " + String.valueOf(line.length()));
-					Log.i(TAG, "appending line of length " + line.length() );
-					data.append(line);
-				}
-			} catch (IOException e) {
-				Log.e(TAG, "IOException");
-			} finally {
-				if (reader != null) {
-					try {
-						reader.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			return data.toString();
-		}
 	}
 
 	private void download() {
+		Log.i(TAG, "downloading");
 		URL url;
 			try {
-				url = new URL("http://www.android.com/");
+				url = new URL("http://www.preciosaornela.com/catalog/jablonex_traditional_czech_beads/img/rocailles/prod/thread/100--50.jpg");
 				(new Downloader()).execute(url);
 			} catch (MalformedURLException e) {
 				Log.e(TAG, "Error! " + e.getMessage());
