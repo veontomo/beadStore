@@ -1,5 +1,6 @@
 package com.veontomo.beadstore;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -35,9 +36,11 @@ public class BeadAdapter extends ArrayAdapter<String> {
 	Context context;
 	ArrayList<String> data = null;
 	
-	ImageDownloader imageDownloader;
-
-	
+	/**
+	 * A class that inserts bitmap into specified image view.
+	 * @since 0.4
+	 */
+	BitmapInserter imageInserter = null;
 
 	/**
 	 * Constructor
@@ -68,10 +71,10 @@ public class BeadAdapter extends ArrayAdapter<String> {
 			row = inflater.inflate(BEAD_NOT_EXISTS, parent, false);
 			beadColor = (TextView) row.findViewById(R.id.colorNumber);
 			beadColor.setText(beadColorCode);
-			imageDownloader = new ImageDownloader();
-			imageDownloader.setImageView((ImageView) row.findViewById(R.id.beadIconColumn));
-			imageDownloader.setDir(TAG);
-			imageDownloader.execute(beadColorCode);
+			imageInserter = new BitmapInserter();
+			imageInserter.setLocation((ImageView) row.findViewById(R.id.beadIconColumn));
+			imageInserter.setStorage(new File(TAG, "thumbnails"));
+			imageInserter.execute(beadColorCode);
 			
 		} else {
 			row = inflater.inflate(BEAD_EXISTS, parent, false);
