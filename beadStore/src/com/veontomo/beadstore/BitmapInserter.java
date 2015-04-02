@@ -93,21 +93,34 @@ public class BitmapInserter extends AsyncTask<String, Void, File> {
 		String fileName = fileNames[0] + EXTENSION;
 		File file = new File(this.storage, fileName);
 		if (!file.exists()) {
-			Log.i(TAG, "image for " + fileName + " does not exist!");
-			Bitmap image = downloader.downloadBitmap(fileName);
-			if (image != null) {
-				Log.i(TAG,
-						"image is downloaded and its size is "
-								+ image.getHeight() + " x " + image.getWidth());
-				this.saveBitmap(image, file);
-			} else {
-				Log.i(TAG, "image " + fileName + " is NOT downloaded");
-			}
-		} else {
-			Log.i(TAG, "image for " + fileName + " is found!");
+			this.downloadCropSave(fileName, file);
 		}
 		return file;
 
+	}
+
+	/**
+	 * Downloads file from internet, crops it and then saves it.
+	 * @param fileName   file to search in internet
+	 * @param file       where to save downloaded file
+	 * @since 0.4
+	 */
+	private void downloadCropSave(String fileName, File file) {
+		Log.i(TAG, "image for " + fileName + " does not exist!");
+		Bitmap image = downloader.downloadBitmap(fileName);
+		if (image != null) {
+			Log.i(TAG,
+					"image is downloaded and its size is "
+							+ image.getHeight() + " x " + image.getWidth());
+			Bitmap croppedImage = downloader.cropImage(image);
+			if (croppedImage != null){
+				this.saveBitmap(croppedImage, file);
+			}
+			
+		} else {
+			Log.i(TAG, "image " + fileName + " is NOT downloaded");
+		}
+		
 	}
 
 	@Override

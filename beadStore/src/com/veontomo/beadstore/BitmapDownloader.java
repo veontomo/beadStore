@@ -28,7 +28,8 @@ class BitmapDownloader {
 	 * @since 0.3
 	 */
 	private static final String IMAGEONLINESTORE = "http://www.preciosaornela.com/catalog/jablonex_traditional_czech_beads/img/rocailles/prod/thread/";
-//	private static final String EXTENSION = ".jpg";
+
+	// private static final String EXTENSION = ".jpg";
 
 	/**
 	 * Tries to detect the location of the file on the server and downloads it.
@@ -78,7 +79,28 @@ class BitmapDownloader {
 				connection.disconnect();
 			}
 		}
-		return image;
+		return this.cropImage(image);
+	}
+
+	/**
+	 * Example of cropping bitmap
+	 * 
+	 * @param image
+	 */
+	public Bitmap cropImage(final Bitmap image) {
+		Log.i(TAG,
+				String.valueOf(image.getHeight()) + " x "
+						+ String.valueOf(image.getWidth()));
+		float horOffset = 0.1f;
+		float verOffset = 0.3f;
+		int left = (int) (image.getWidth() * horOffset);
+		int width = (int) (image.getWidth() * (1 - 2 * horOffset));
+		int top = (int) (image.getHeight() * verOffset);
+		int height = (int) (image.getHeight() * (1 - 2 * verOffset));
+
+		Bitmap cropped = Bitmap.createBitmap(image, left, top, width, height);
+
+		return cropped;
 	}
 
 }
