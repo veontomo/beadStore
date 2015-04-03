@@ -21,8 +21,8 @@ import android.widget.Toast;
  * @since 0.1
  */
 public class BeadAdapter extends ArrayAdapter<String> {
-	private final static int BEAD_EXISTS = R.layout.bead_existing;
-	private final static int BEAD_NOT_EXISTS = R.layout.bead_missing;
+	private final static int BEAD_EXISTS = R.layout.bead_text;
+	private final static int BEAD_NOT_EXISTS = R.layout.bead_thumbnail;
 
 	private final static BeadStand beadStand = new BeadStand();
 
