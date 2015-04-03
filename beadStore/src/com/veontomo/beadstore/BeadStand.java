@@ -1,9 +1,6 @@
 package com.veontomo.beadstore;
 
-import java.io.File;
 import java.util.HashMap;
-
-import android.os.Environment;
 import android.util.Log;
 
 /**
