@@ -30,8 +30,26 @@ class BitmapDownloader {
 	 * @since 0.3
 	 */
 	private static final String IMAGEONLINESTORE = "http://www.preciosaornela.com/catalog/jablonex_traditional_czech_beads/img/rocailles/prod/thread/";
+	
+	/**
+	 * Value on which width should be reduced form left and from right.
+	 * @since 0.4
+	 */
+	private static final float WIDTHOFFSET = 0.1f;
 
-	// private static final String EXTENSION = ".jpg";
+	/**
+	 * Value on which height should be reduced form top and from bottom.
+	 * @since 0.4
+	 */
+	private static final float HEIGHTOFFSET = 0.1f;
+
+	/**
+	 * Progress of downloading.
+	 * <p>0 correspond to the start, 100 - to the end.</p>
+	 * 
+	 * @since 0.5
+	 */
+	private Integer progress = 0;
 
 	/**
 	 * Tries to detect the location of the file on the server and downloads it.
@@ -52,36 +70,21 @@ class BitmapDownloader {
 			connection.setRequestMethod("GET");
 			connection.setDoInput(true);
 			connection.connect();
-			Log.i(TAG, String.valueOf(connection.getResponseCode()));
 			int response = connection.getResponseCode();
 			if (response != HttpURLConnection.HTTP_OK) {
-				Log.i(TAG, "response is NOT OK");
 				return null;
 			}
-			Log.i(TAG, "response OK");
 			inputStream = connection.getInputStream();
 			image = BitmapFactory.decodeStream(inputStream);
-			if (image == null) {
-				Log.i(TAG, "url does not correspond to an image");
-			} else {
-				Log.i(TAG, "image size: " + String.valueOf(image.getHeight())
-						+ " x " + image.getWidth());
-
-			}
-
-			// data = readStream(inputStream);
-			Log.i(TAG, "Disconnecting and closing");
-
 			inputStream.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			if (connection != null) {
 				connection.disconnect();
 			}
 		}
-		return this.cropImage(image);
+		return image;
 	}
 
 	/**
@@ -93,16 +96,32 @@ class BitmapDownloader {
 		Log.i(TAG,
 				String.valueOf(image.getHeight()) + " x "
 						+ String.valueOf(image.getWidth()));
-		float horOffset = 0.1f;
-		float verOffset = 0.3f;
-		int left = (int) (image.getWidth() * horOffset);
-		int width = (int) (image.getWidth() * (1 - 2 * horOffset));
-		int top = (int) (image.getHeight() * verOffset);
-		int height = (int) (image.getHeight() * (1 - 2 * verOffset));
+		int left = (int) (image.getWidth() * WIDTHOFFSET);
+		int width = (int) (image.getWidth() * (1 - 2 * WIDTHOFFSET));
+		int top = (int) (image.getHeight() * HEIGHTOFFSET);
+		int height = (int) (image.getHeight() * (1 - 2 * HEIGHTOFFSET));
 
 		Bitmap cropped = Bitmap.createBitmap(image, left, top, width, height);
 
 		return cropped;
+	}
+
+	/**
+	 * Progress getter
+	 * @since 0.5
+	 * @return
+	 */
+	public Integer getProgress() {
+		return this.progress;
+	}
+	
+	/**
+	 * Progress setter
+	 * @since 0.5
+	 * @param p
+	 */
+	public void setProgress(Integer p) {
+		this.progress = p;
 	}
 
 }

@@ -33,6 +33,19 @@ public class BeadAdapter extends ArrayAdapter<String> {
 	 */
 	final private String TAG = "BeadStore";
 
+	
+	/**
+	 * A name of folder where application files should be stored. 
+	 * @since 0.5   
+	 */
+	final static private String APPFOLDER = "BeadStore"; 
+
+	/**
+	 * A name of subfolder inside the application folder where thumbnails should be stored.
+	 * @since 0.5   
+	 */
+	final static private String IMAGEFOLDER = "thumbnails"; 
+
 	Context context;
 	ArrayList<String> data = null;
 	
@@ -73,7 +86,7 @@ public class BeadAdapter extends ArrayAdapter<String> {
 			beadColor.setText(beadColorCode);
 			imageInserter = new BitmapInserter();
 			imageInserter.setLocation((ImageView) row.findViewById(R.id.beadIconColumn));
-			imageInserter.setStorage(new File(TAG, "thumbnails"));
+			imageInserter.setStorage(new File(APPFOLDER, IMAGEFOLDER));
 			imageInserter.execute(beadColorCode);
 			
 		} else {

@@ -96,7 +96,6 @@ public class BeadActivity extends Activity {
 		setContentView(R.layout.bead_search);
 
 		ArrayList<String> data = new ArrayList<String>();
-
 		View header = (View) getLayoutInflater().inflate(
 				R.layout.bead_list_header, null);
 

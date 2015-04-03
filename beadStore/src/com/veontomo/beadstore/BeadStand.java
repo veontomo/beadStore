@@ -100,7 +100,7 @@ public class BeadStand {
 			+ "02133 02151 02293 03194 03441\n";
 
 	/**
-	 * A mapping form color code to location
+	 * A mapping from color code to location
 	 * 
 	 * @since 0.2
 	 */
