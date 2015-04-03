@@ -63,7 +63,6 @@
     <style name="colorNumberMissing">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">2</item>
         <item name="android:padding">5dp</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">#AA0000</item>
@@ -78,7 +77,8 @@
     </style>
 
     <style name="beadIconColumn">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">5dp</item>
     </style>
