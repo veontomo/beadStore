@@ -23,7 +23,9 @@ import android.widget.ImageView;
 class BitmapDownloader {
 	private static final String TAG = "BeadStore";
 	/**
-	 * Location where bead images reside
+	 * Location where bead images reside.
+	 * 
+	 * See <a href="http://www.preciosaornela.com/catalog/jablonex_traditional_czech_beads/find_results.php">this page</a> for more results.
 	 * 
 	 * @since 0.3
 	 */
