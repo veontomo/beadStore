@@ -25,22 +25,23 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f080009;
+        public static final int action_settings=0x7f08000a;
         public static final int beadColor=0x7f080006;
-        public static final int beadIconColumn=0x7f080005;
+        public static final int beadIconColumn=0x7f080009;
         public static final int beadLocationColumn=0x7f080004;
         public static final int beadLocationRow=0x7f080003;
         public static final int beadLocationWing=0x7f080002;
         public static final int bead_row=0x7f080000;
         public static final int btnBeadFind=0x7f080007;
         public static final int colorNumber=0x7f080001;
+        public static final int inputLine=0x7f080005;
         public static final int list=0x7f080008;
     }
     public static final class layout {
-        public static final int bead_existing=0x7f030000;
-        public static final int bead_list_header=0x7f030001;
-        public static final int bead_missing=0x7f030002;
-        public static final int bead_search=0x7f030003;
+        public static final int bead_list_header=0x7f030000;
+        public static final int bead_search=0x7f030001;
+        public static final int bead_text=0x7f030002;
+        public static final int bead_thumbnail=0x7f030003;
     }
     public static final class menu {
         public static final int bead=0x7f070000;
@@ -68,7 +69,6 @@ public final class R {
 
 
 
-
     
 
         Base application theme for API 11+. This theme completely replaces
@@ -87,16 +87,13 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f060001;
-        public static final int beadColorInput=0x7f06000c;
         public static final int beadIconColumn=0x7f06000a;
         public static final int beadIconColumnMissing=0x7f06000b;
-        public static final int beadList=0x7f06000e;
         public static final int beadLocation=0x7f060009;
         public static final int beadRow=0x7f060004;
         public static final int beadRowHeader=0x7f060006;
         public static final int beadRowMissing=0x7f060005;
         public static final int body=0x7f060002;
-        public static final int btnBeadFind=0x7f06000d;
         public static final int colorNumber=0x7f060007;
         public static final int colorNumberMissing=0x7f060008;
         public static final int titleLine=0x7f060003;

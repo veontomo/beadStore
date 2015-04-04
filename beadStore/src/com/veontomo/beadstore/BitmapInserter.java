@@ -7,10 +7,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -22,7 +18,9 @@ import android.widget.ImageView;
  * @author Andrea
  *
  */
-public class BitmapInserter extends AsyncTask<String, Void, File> {
+public class BitmapInserter extends AsyncTask<String, Integer, File> {
+	
+	private static final int IMAGEQUALITY = 50;
 	/**
 	 * Image view in which the bitmap should be inserted.
 	 * 
@@ -43,7 +41,7 @@ public class BitmapInserter extends AsyncTask<String, Void, File> {
 	 * @since 0.4
 	 */
 	private static final String EXTENSION = ".jpg";
-
+	
 	/**
 	 * Class responsible for retrieving file (either from internet or from file
 	 * system)
@@ -86,41 +84,34 @@ public class BitmapInserter extends AsyncTask<String, Void, File> {
 	 * @param fileName   
 	 */
 	public File doInBackground(String... fileNames) {
-		Log.i(TAG, "inside downloader");
 		if (fileNames.length == 0) {
 			return null;
 		}
 		String fileName = fileNames[0] + EXTENSION;
 		File file = new File(this.storage, fileName);
 		if (!file.exists()) {
-			this.downloadCropSave(fileName, file);
+			this.prepareFile(fileName, file);
 		}
 		return file;
 
 	}
 
 	/**
-	 * Downloads file from internet, crops it and then saves it.
+	 * Prepares the file with bitmap (i.e., downloads it from internet, [crops it,] saves) 
 	 * @param fileName   file to search in internet
 	 * @param file       where to save downloaded file
+	 * @return boolean
 	 * @since 0.4
 	 */
-	private void downloadCropSave(String fileName, File file) {
-		Log.i(TAG, "image for " + fileName + " does not exist!");
+	private boolean prepareFile(String fileName, File file) {
 		Bitmap image = downloader.downloadBitmap(fileName);
 		if (image != null) {
-			Log.i(TAG,
-					"image is downloaded and its size is "
-							+ image.getHeight() + " x " + image.getWidth());
 			Bitmap croppedImage = downloader.cropImage(image);
 			if (croppedImage != null){
-				this.saveBitmap(croppedImage, file);
+				return this.saveBitmap(croppedImage, file);
 			}
-			
-		} else {
-			Log.i(TAG, "image " + fileName + " is NOT downloaded");
 		}
-		
+		return false;
 	}
 
 	@Override
@@ -131,33 +122,36 @@ public class BitmapInserter extends AsyncTask<String, Void, File> {
 	 * @see BitmapInserter#imageView
 	 */
 	public void onPostExecute(File f) {
-		Log.i(TAG, "onPostExecute stub: inserting file " + f.toString());
 		if(f.exists() && this.imageView != null){
 		    Bitmap bitmap = BitmapFactory.decodeFile(f.getAbsolutePath());
 		    this.imageView.setImageBitmap(bitmap);
-
 		}
 	}
 
 	/**
-	 * Saves the image in the storage folder under the name
+	 * Saves the image in the storage folder in the given file.
+	 * 
+	 * Returns true in case of success, false otherwise. 
 	 * 
 	 * @param image
+	 * @return boolean
 	 * @since 0.4
 	 */
-	public void saveBitmap(Bitmap image, File file) {
-		Log.i(TAG, "saving bitmap as file");
-
+	public boolean saveBitmap(Bitmap image, File file) {
+		boolean isSaved = false;
 		try {
 			FileOutputStream fos = new FileOutputStream(file);
-			image.compress(Bitmap.CompressFormat.JPEG, 50, fos);
+			isSaved = image.compress(Bitmap.CompressFormat.JPEG, IMAGEQUALITY, fos);
 			fos.close();
+			return isSaved;
 		} catch (FileNotFoundException e) {
 			Log.i(TAG, "File not found: " + e.getMessage());
 		} catch (IOException e) {
 			Log.i(TAG, "Error accessing file: " + e.getMessage());
 		}
+		return isSaved;
 	}
+	
 
 	/**
 	 * Image view setter.
@@ -180,5 +174,4 @@ public class BitmapInserter extends AsyncTask<String, Void, File> {
 	public void setStorage(File file) {
 		this.storage = new File(Environment.getExternalStorageDirectory(), file.toString());
 	}
-
 }

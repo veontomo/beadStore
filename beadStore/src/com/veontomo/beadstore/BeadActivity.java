@@ -1,54 +1,19 @@
 package com.veontomo.beadstore;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.lang.reflect.Array;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.http.client.ClientProtocolException;
-
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class BeadActivity extends Activity {
 	ImageView mImageView;
@@ -67,9 +32,6 @@ public class BeadActivity extends Activity {
 	 */
 	private BeadAdapter mAdapter;
 
-	private BeadStand beadStand = new BeadStand();
-
-	// private BeadInfo beadInfo = new BeadInfo();
 
 	/**
 	 * Array list in which a history of search requests is stored.
@@ -91,12 +53,11 @@ public class BeadActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Log.i(TAG, "on create");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.bead_search);
 
-	
 		ArrayList<String> data = new ArrayList<String>();
-
 		View header = (View) getLayoutInflater().inflate(
 				R.layout.bead_list_header, null);
 
@@ -126,15 +87,14 @@ public class BeadActivity extends Activity {
 
 					}
 					inputField.getEditableText().clear();
-				} else {
-					Toast.makeText(getApplicationContext(), "no adapter", Toast.LENGTH_LONG).show();
 				}
 			}
 		});
-
+	
 	}
 
 
+	
 	/**
 	 * Puts string into history.
 	 * 
@@ -191,9 +151,6 @@ public class BeadActivity extends Activity {
 
 	@Override
 	protected void onPause() {
-		mImageView = null;
-		mAdapter = null;
-		listView = null;
 		super.onPause();
 		Log.i(TAG,
 				"Another activity is taking focus (this activity is about to be \"paused\")");

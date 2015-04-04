@@ -5,14 +5,12 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Adapter to fill in items of list view with bead data
@@ -21,8 +19,8 @@ import android.widget.Toast;
  * @since 0.1
  */
 public class BeadAdapter extends ArrayAdapter<String> {
-	private final static int BEAD_EXISTS = R.layout.bead_existing;
-	private final static int BEAD_NOT_EXISTS = R.layout.bead_missing;
+	private final static int BEAD_EXISTS = R.layout.bead_text;
+	private final static int BEAD_NOT_EXISTS = R.layout.bead_thumbnail;
 
 	private final static BeadStand beadStand = new BeadStand();
 
@@ -32,6 +30,19 @@ public class BeadAdapter extends ArrayAdapter<String> {
 	 * @since 0.1
 	 */
 	final private String TAG = "BeadStore";
+
+	
+	/**
+	 * A name of folder where application files should be stored. 
+	 * @since 0.5   
+	 */
+	final static private String APPFOLDER = "BeadStore"; 
+
+	/**
+	 * A name of subfolder inside the application folder where thumbnails should be stored.
+	 * @since 0.5   
+	 */
+	final static private String IMAGEFOLDER = "thumbnails"; 
 
 	Context context;
 	ArrayList<String> data = null;
@@ -73,7 +84,7 @@ public class BeadAdapter extends ArrayAdapter<String> {
 			beadColor.setText(beadColorCode);
 			imageInserter = new BitmapInserter();
 			imageInserter.setLocation((ImageView) row.findViewById(R.id.beadIconColumn));
-			imageInserter.setStorage(new File(TAG, "thumbnails"));
+			imageInserter.setStorage(new File(APPFOLDER, IMAGEFOLDER));
 			imageInserter.execute(beadColorCode);
 			
 		} else {

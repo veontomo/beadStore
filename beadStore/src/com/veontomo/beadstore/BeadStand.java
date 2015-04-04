@@ -1,9 +1,6 @@
 package com.veontomo.beadstore;
 
-import java.io.File;
 import java.util.HashMap;
-
-import android.os.Environment;
 import android.util.Log;
 
 /**
@@ -100,7 +97,7 @@ public class BeadStand {
 			+ "02133 02151 02293 03194 03441\n";
 
 	/**
-	 * A mapping form color code to location
+	 * A mapping from color code to location
 	 * 
 	 * @since 0.2
 	 */
@@ -158,7 +155,7 @@ public class BeadStand {
 			rowLen = colors.length;
 			for (pointer = 0; pointer < rowLen; pointer++) {
 				key = colors[pointer];
-				this.colorToLocation.put(key,  new Location(currentMarker, pointer + 1, currentRow));
+				this.colorToLocation.put(key,  new Location(currentMarker, currentRow, pointer + 1));
 			}
 			currentRow++;
 		}
