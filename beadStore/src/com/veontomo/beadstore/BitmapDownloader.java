@@ -79,7 +79,7 @@ class BitmapDownloader {
 				connection.disconnect();
 			}
 		}
-		return this.cropImage(image);
+		return image;
 	}
 
 	/**
