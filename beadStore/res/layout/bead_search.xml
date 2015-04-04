@@ -19,7 +19,7 @@
             android:layout_marginTop="15dp"
             android:layout_weight="1"
             android:hint="@string/beadColorHint"
-            android:inputType="number"
+            android:inputType="phone"
             android:textColor="#7F70D8"
             android:textSize="25sp" >
 
