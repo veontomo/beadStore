@@ -14,13 +14,13 @@
         android:text="@string/standWing" />
 
     <TextView
-        android:id="@+id/beadLocationRow"
+        android:id="@+id/beadLocationColumn"
         style="@style/beadLocation"
-        android:text = "@string/standRow" />
+        android:text="@string/standColumn" />
 
     <TextView
-        android:id="@+id/beadLocationColumn"
-        style="@style/beadLocation" 
-        android:text = "@string/standColumn"/>
-    
+        android:id="@+id/beadLocationRow"
+        style="@style/beadLocation"
+        android:text="@string/standRow" />
+
 </LinearLayout>

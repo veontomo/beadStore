@@ -155,7 +155,7 @@ public class BeadStand {
 			rowLen = colors.length;
 			for (pointer = 0; pointer < rowLen; pointer++) {
 				key = colors[pointer];
-				this.colorToLocation.put(key,  new Location(currentMarker, currentRow, pointer + 1));
+				this.colorToLocation.put(key,  new Location(currentMarker, pointer + 1, currentRow));
 			}
 			currentRow++;
 		}
