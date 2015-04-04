@@ -6,7 +6,7 @@
     <string name="btnFindByColor">Cerca</string>
     <string name="colorNumber">Colore</string>
     <string name="beadPosition">posizione</string>
-    <string name="beadColorHint">numero del colore</string>
+    <string name="beadColorHint">codice colore</string>
     <string name="beadNotFound">non presente</string>
     <string name="beadIconDescr">immagine</string>
     <string name="standWing">ala</string>

@@ -6,7 +6,7 @@
     <string name="btnFindByColor">Знайти</string>
     <string name="colorNumber">колір</string>
     <string name="beadPosition">знаходження</string>
-    <string name="beadColorHint">номер коліру</string>
+    <string name="beadColorHint">код коліру</string>
     <string name="searchResult">Результати пошуку</string>
     <string name="beadNotFound">відсутній</string>
     <string name="beadIconDescr">мініатюра</string>
