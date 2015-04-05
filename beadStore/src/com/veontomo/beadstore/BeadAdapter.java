@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,6 +80,7 @@ public class BeadAdapter extends ArrayAdapter<String> {
 		LayoutInflater inflater = ((Activity) this.context).getLayoutInflater();
 		TextView beadColor;
 		if (loc == null) {
+			Log.i(TAG, "Bead is not found");
 			row = inflater.inflate(BEAD_NOT_EXISTS, parent, false);
 			beadColor = (TextView) row.findViewById(R.id.colorNumber);
 			beadColor.setText(beadColorCode);
@@ -86,8 +88,8 @@ public class BeadAdapter extends ArrayAdapter<String> {
 			imageInserter.setLocation((ImageView) row.findViewById(R.id.beadIconColumn));
 			imageInserter.setStorage(new File(APPFOLDER, IMAGEFOLDER));
 			imageInserter.execute(beadColorCode);
-			
 		} else {
+			Log.i(TAG, "Bead is found");
 			row = inflater.inflate(BEAD_EXISTS, parent, false);
 			beadColor = (TextView) row.findViewById(R.id.colorNumber);
 			beadColor.setText(beadColorCode);

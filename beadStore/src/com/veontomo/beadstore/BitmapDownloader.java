@@ -18,7 +18,9 @@ class BitmapDownloader {
 	 * @since 0.3
 	 */
 	private static final String IMAGEONLINESTORE = "http://www.preciosaornela.com/catalog/jablonex_traditional_czech_beads/img/rocailles/prod/thread/";
-	
+
+	private static final String[] TEMPLATES = {"bugles", "farfalle", "rocailles", "selak", "twocut"};
+
 	/**
 	 * Value on which width should be reduced form left and from right.
 	 * @since 0.4
@@ -47,33 +49,61 @@ class BitmapDownloader {
 	 * @since 0.4
 	 */
 	public Bitmap downloadBitmap(String name) {
+		Log.i(TAG, "Downloading file " + name);
 		InputStream inputStream = null;
 		Bitmap image = null;
-		HttpURLConnection connection = null;
+		HttpURLConnection connection = findOnServer(name, TEMPLATES);
 		try {
-			URL url = new URL(IMAGEONLINESTORE + name);
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setReadTimeout(10000 /* milliseconds */);
-			connection.setConnectTimeout(15000 /* milliseconds */);
-			connection.setRequestMethod("GET");
-			connection.setDoInput(true);
-			connection.connect();
-			int response = connection.getResponseCode();
-			if (response != HttpURLConnection.HTTP_OK) {
-				return null;
+			if (connection != null){
+				inputStream = connection.getInputStream();
+				image = BitmapFactory.decodeStream(inputStream);
+				inputStream.close();
 			}
-			inputStream = connection.getInputStream();
-			image = BitmapFactory.decodeStream(inputStream);
-			inputStream.close();
+
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			if (connection != null) {
-				connection.disconnect();
-			}
 		}
+		
+		if (connection != null){
+			connection.disconnect();
+		}
+		Log.i(TAG, "download image returns image of height " + image.getHeight());
 		return image;
 	}
+	
+	private HttpURLConnection findOnServer(String name, String[] locations){
+		int len = locations.length;
+		int i = 0;
+		String path;
+		URL url;
+		HttpURLConnection connection = null;
+		int response;
+		for (i = 0; i < len; i++){
+			path = IMAGEONLINESTORE.replace("#", locations[i]) + name;
+			try {
+				url = new URL(path);
+				connection = (HttpURLConnection) url.openConnection();
+				connection.setReadTimeout(10000 /* milliseconds */);
+				connection.setConnectTimeout(15000 /* milliseconds */);
+				connection.setRequestMethod("GET");
+				connection.setDoInput(true);
+				connection.connect();
+				response = connection.getResponseCode();
+				if (response == HttpURLConnection.HTTP_OK){
+					Log.i(TAG, "Connection to " + path);
+					return connection;
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (connection != null) {
+					connection.disconnect();
+				}
+			}
+		}
+		return null;
+	};
 
 	/**
 	 * Example of cropping bitmap

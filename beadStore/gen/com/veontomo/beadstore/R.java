@@ -28,8 +28,8 @@ public final class R {
         public static final int action_settings=0x7f08000a;
         public static final int beadColor=0x7f080006;
         public static final int beadIconColumn=0x7f080009;
-        public static final int beadLocationColumn=0x7f080004;
-        public static final int beadLocationRow=0x7f080003;
+        public static final int beadLocationColumn=0x7f080003;
+        public static final int beadLocationRow=0x7f080004;
         public static final int beadLocationWing=0x7f080002;
         public static final int bead_row=0x7f080000;
         public static final int btnBeadFind=0x7f080007;

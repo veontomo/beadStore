@@ -35,7 +35,6 @@
             android:text="@string/btnFindByColor"
             android:textColor="#FF7A00"
             android:textSize="25sp" />
-
     </LinearLayout>
 
     <ListView

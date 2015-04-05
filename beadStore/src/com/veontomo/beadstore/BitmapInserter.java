@@ -84,13 +84,18 @@ public class BitmapInserter extends AsyncTask<String, Integer, File> {
 	 * @param fileName   
 	 */
 	public File doInBackground(String... fileNames) {
+		Log.i(TAG, "Background task");
+
 		if (fileNames.length == 0) {
 			return null;
 		}
 		String fileName = fileNames[0] + EXTENSION;
 		File file = new File(this.storage, fileName);
 		if (!file.exists()) {
+			Log.i(TAG, "File " + file.toString() + " is not found");
 			this.prepareFile(fileName, file);
+		} else {
+			Log.i(TAG, "File " + file.toString() + " is found");
 		}
 		return file;
 
@@ -104,13 +109,20 @@ public class BitmapInserter extends AsyncTask<String, Integer, File> {
 	 * @since 0.4
 	 */
 	private boolean prepareFile(String fileName, File file) {
+		Log.i(TAG, "Prepearing file " + fileName);
+
 		Bitmap image = downloader.downloadBitmap(fileName);
 		if (image != null) {
+			Log.i(TAG, "image is not null");
 			Bitmap croppedImage = downloader.cropImage(image);
 			if (croppedImage != null){
+				Log.i(TAG, "cropped image is not null");
 				return this.saveBitmap(croppedImage, file);
+			} else {
+				Log.i(TAG, "cropped image is null");
 			}
 		}
+		Log.i(TAG, "Prepearing file returns false");
 		return false;
 	}
 
@@ -143,12 +155,14 @@ public class BitmapInserter extends AsyncTask<String, Integer, File> {
 			FileOutputStream fos = new FileOutputStream(file);
 			isSaved = image.compress(Bitmap.CompressFormat.JPEG, IMAGEQUALITY, fos);
 			fos.close();
+			Log.i(TAG, "Saved bitmap?" + String.valueOf(isSaved));
 			return isSaved;
 		} catch (FileNotFoundException e) {
 			Log.i(TAG, "File not found: " + e.getMessage());
 		} catch (IOException e) {
 			Log.i(TAG, "Error accessing file: " + e.getMessage());
 		}
+		Log.i(TAG, "Saved bitmap?" + String.valueOf(isSaved));
 		return isSaved;
 	}
 	
