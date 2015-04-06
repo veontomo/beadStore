@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Debug;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,8 +53,6 @@ public class BeadActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Debug.startMethodTracing("calc");
-
 		Log.i(TAG, "on create");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.bead_search);
@@ -157,7 +154,6 @@ public class BeadActivity extends Activity {
 		super.onPause();
 		Log.i(TAG,
 				"Another activity is taking focus (this activity is about to be \"paused\")");
-		Debug.stopMethodTracing();
 	}
 
 	@Override

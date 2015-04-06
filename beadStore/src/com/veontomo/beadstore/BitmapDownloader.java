@@ -10,6 +10,10 @@ import android.util.Log;
 
 class BitmapDownloader {
 	private static final String TAG = "BeadStore";
+	
+	private static final int READTIMEOUT = 10000;
+	
+	private static final int CONNECTTIMEOUT = 15000;
 	/**
 	 * Location where bead images reside.
 	 * 
@@ -17,10 +21,9 @@ class BitmapDownloader {
 	 * 
 	 * @since 0.3
 	 */
-	private static final String IMAGEONLINESTORE = "http://www.preciosaornela.com/catalog/jablonex_traditional_czech_beads/img/rocailles/prod/thread/";
+	private static final String IMAGEONLINESTORE = "http://www.preciosaornela.com/catalog/jablonex_traditional_czech_beads/img/#/prod/thread/";
 
 	private static final String[] TEMPLATES = {"bugles", "farfalle", "rocailles", "selak", "twocut"};
-
 	/**
 	 * Value on which width should be reduced form left and from right.
 	 * @since 0.4
@@ -52,27 +55,34 @@ class BitmapDownloader {
 		Log.i(TAG, "Downloading file " + name);
 		InputStream inputStream = null;
 		Bitmap image = null;
-		HttpURLConnection connection = findOnServer(name, TEMPLATES);
+		URL url = findOnServer(name, TEMPLATES);
+		if (url == null){
+			return null;
+		}
+		HttpURLConnection connection = null;
 		try {
-			if (connection != null){
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setReadTimeout(READTIMEOUT);
+			connection.setConnectTimeout(CONNECTTIMEOUT);
+			connection.setRequestMethod("GET");
+			connection.setDoInput(true);
+			connection.connect();
+			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK){
 				inputStream = connection.getInputStream();
 				image = BitmapFactory.decodeStream(inputStream);
 				inputStream.close();
 			}
-
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if (connection != null) {
+				connection.disconnect();
+			}
 		}
-		
-		if (connection != null){
-			connection.disconnect();
-		}
-		Log.i(TAG, "download image returns image of height " + image.getHeight());
 		return image;
 	}
 	
-	private HttpURLConnection findOnServer(String name, String[] locations){
+	private URL findOnServer(String name, String[] locations){
 		int len = locations.length;
 		int i = 0;
 		String path;
@@ -84,15 +94,14 @@ class BitmapDownloader {
 			try {
 				url = new URL(path);
 				connection = (HttpURLConnection) url.openConnection();
-				connection.setReadTimeout(10000 /* milliseconds */);
-				connection.setConnectTimeout(15000 /* milliseconds */);
-				connection.setRequestMethod("GET");
+				connection.setReadTimeout(READTIMEOUT);
+				connection.setConnectTimeout(CONNECTTIMEOUT);
+				connection.setRequestMethod("HEAD");
 				connection.setDoInput(true);
 				connection.connect();
 				response = connection.getResponseCode();
 				if (response == HttpURLConnection.HTTP_OK){
-					Log.i(TAG, "Connection to " + path);
-					return connection;
+					return url;
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
