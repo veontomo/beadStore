@@ -63,7 +63,7 @@ public class BeadActivity extends Activity {
 
 		listView = (ListView) findViewById(R.id.list);
 		listView.addHeaderView(header);
-//		mAdapter = new BeadBaseAdapter(this.getApplicationContext(), colorCodeBunch);
+		mAdapter = new BeadBaseAdapter(this.getApplicationContext(), beadInfoBunch);
 		listView.setAdapter(mAdapter);
 
 		Button btn = (Button) findViewById(R.id.btnBeadFind);

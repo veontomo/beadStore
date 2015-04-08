@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,8 @@ import android.widget.TextView;
  * @since 0.6
  */
 public class BeadBaseAdapter extends BaseAdapter {
-	 Context mContext;
-	private ArrayList<Bead> beads;
+	private Context mContext;
+	private ArrayList<BeadInfo> beadInfoBunch;
 	
 	/**
 	 * Number of kinds of layout for bead visualization
@@ -38,21 +39,22 @@ public class BeadBaseAdapter extends BaseAdapter {
 	 * @since 0.6
 	 */
 	private final static int LAYOUT_THUMBNAIL = R.layout.bead_thumbnail;
+	private static final String TAG = "BeadStore";
 
 	
-	public BeadBaseAdapter(Context context, ArrayList<Bead> beads) {
-		mContext = context;
-		this.beads = beads;
+	public BeadBaseAdapter(Context context, ArrayList<BeadInfo> beads) {
+		this.mContext = context;
+		this.beadInfoBunch = beads;
 	}
 
 	@Override
 	public int getCount() {
-		return beads.size();
+		return beadInfoBunch.size();
 	}
 
 	@Override
 	public Object getItem(int pos) {
-		return beads.get(pos);
+		return beadInfoBunch.get(pos);
 	}
 
 	@Override
@@ -65,11 +67,21 @@ public class BeadBaseAdapter extends BaseAdapter {
 		return NUM_OF_TYPES;
 	}
 	
+//	@Override
+	public int getItemViewType(int index){
+		BeadInfo beadInfo = this.beadInfoBunch.get(index);
+		if (beadInfo.getType() == BeadInfo.AVAILABLE){
+			
+		}
+		return 1;
+	}
+	
 	@Override  
     public View getView(int position, View convertView, ViewGroup parent) {
+		Log.i(TAG, "get view: position = " + String.valueOf(position));
 		View row = convertView;
 		if (row == null){
-			LayoutInflater inflater = ((Activity) this.mContext).getLayoutInflater();
+			LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE); 
 			row = inflater.inflate(LAYOUT_TEXT, parent, false);
 		}
 		TextView colorCodeTV = (TextView) row.findViewById(R.id.colorNumber);

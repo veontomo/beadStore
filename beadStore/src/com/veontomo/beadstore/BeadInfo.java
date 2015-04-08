@@ -22,6 +22,12 @@ public class BeadInfo {
 	private Location location;
 	
 	/**
+	 * Bead status: available, sold out, external, unknown.
+	 * @since 0.6 
+	 */
+	private int status;
+	
+	/**
 	 * Constructor
 	 * @param colorCode
 	 * @since 0.6
@@ -77,6 +83,15 @@ public class BeadInfo {
 			output += location.toString() + " ";
 		}
 		return output;
+	}
+
+	/**
+	 * Returns type of the bead
+	 * @return
+	 */
+	public Object getType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
