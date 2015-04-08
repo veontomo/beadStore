@@ -23,7 +23,7 @@ public class BeadAdapter extends ArrayAdapter<String> {
 	private final static int BEAD_EXISTS = R.layout.bead_text;
 	private final static int BEAD_NOT_EXISTS = R.layout.bead_thumbnail;
 
-	private final static BeadStand beadStand = new BeadStand();
+	private final static BeadStore beadStand = new BeadStore();
 
 	/**
 	 * An auxiliary string used to mark log messages during development stage.

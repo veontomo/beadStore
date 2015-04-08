@@ -45,7 +45,7 @@ public class BeadInfo {
 	
 	/**
 	 * Location of the bead on the bead stand.
-	 * @see BeadStand
+	 * @see BeadStore
 	 * @since 0.3
 	 */
 	private Location location;
@@ -57,13 +57,32 @@ public class BeadInfo {
 	private int status;
 	
 	/**
+	 * Bead instance.
+	 * 
+	 * It serves to have access to bead-specific information (color, type, etc.)
+	 * @since 0.7 
+	 */
+	private Bead bead;  
+	
+	/**
+	 * BeadStand instance.
+	 * 
+	 * It serves to have access to bead-store-related information 
+	 * (quantity, location, etc.)
+	 * @since 0.7 
+	 */
+	private static final BeadStore beadStore = new BeadStore(); 
+	
+	/**
 	 * Constructor
 	 * @param colorCode
 	 * @since 0.6
 	 */
 	public BeadInfo(String colorCode){
-		this.setColorCode(colorCode);
-		
+		this.bead = new Bead(colorCode);
+		this.colorCode = this.bead.getColorCode();
+		this.setColorCode(this.colorCode);
+		this.location = beadStore.getByColor(this.colorCode); 
 	}
 
 	/**
@@ -121,7 +140,7 @@ public class BeadInfo {
 	 * @since 0.6
 	 */
 	public int getStatus() {
-		return (!this.colorCode.equals("1")) ? UNKNOWN : AVAILABLE;
+		return (this.getLocation() == null) ? UNKNOWN : AVAILABLE;
 	}
 	
 	

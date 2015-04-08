@@ -100,20 +100,45 @@ public class BeadBaseAdapter extends BaseAdapter {
 			LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			if (this.getItemViewType(position) == AVAILABLE){
 				row = inflater.inflate(LAYOUT_TEXT, parent, false);
+				this.inflateTextLayout(row, this.beadInfoBunch.get(position));
 			} else {
 				row = inflater.inflate(LAYOUT_THUMBNAIL, parent, false);
 			}
 		
 		}
+         return row;  
+    }
+
+	private void inflateTextLayout(View row, BeadInfo beadInfo) {
 		TextView colorCodeTV = (TextView) row.findViewById(R.id.colorNumber);
 		if (colorCodeTV != null){
-			BeadInfo beadInfo = this.beadInfoBunch.get(position);
 			String colorCode = beadInfo.getColorCode();
 			if (colorCode != null){
 				colorCodeTV.setText(colorCode);
 			}
-			
 		}
-         return row;  
-    }  
+		Location loc = beadInfo.getLocation(); 
+		if (loc != null){
+			String wing = loc.getWing();
+			String locRow = String.valueOf(loc.getRow());
+			String locCol = String.valueOf(loc.getCol());
+
+			TextView wingTV = (TextView) row.findViewById(R.id.beadLocationWing);
+			if (wingTV != null){
+				wingTV.setText(wing);
+			}
+			TextView locRowTV = (TextView) row.findViewById(R.id.beadLocationRow);
+			if (locRowTV != null){
+				locRowTV.setText(locRow);
+			}
+			TextView locColTV = (TextView) row.findViewById(R.id.beadLocationColumn);
+			if (locColTV != null){
+				locColTV.setText(locCol);
+			}
+
+
+		}
+
+		
+	}  
 }
