@@ -30,7 +30,7 @@ public class BeadActivity extends Activity {
 	 * 
 	 * @since 0.1
 	 */
-	private BeadAdapter mAdapter;
+	private BeadBaseAdapter mAdapter;
 
 
 	/**
@@ -57,13 +57,13 @@ public class BeadActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.bead_search);
 
-		ArrayList<String> data = new ArrayList<String>();
+		final ArrayList<BeadInfo> beadInfoBunch = new ArrayList<BeadInfo>();
 		View header = (View) getLayoutInflater().inflate(
 				R.layout.bead_list_header, null);
 
 		listView = (ListView) findViewById(R.id.list);
 		listView.addHeaderView(header);
-		mAdapter = new BeadAdapter(this, data);
+//		mAdapter = new BeadBaseAdapter(this.getApplicationContext(), colorCodeBunch);
 		listView.setAdapter(mAdapter);
 
 		Button btn = (Button) findViewById(R.id.btnBeadFind);
@@ -77,13 +77,13 @@ public class BeadActivity extends Activity {
 				imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 				if (mAdapter != null) {
 					EditText inputField = (EditText) findViewById(R.id.beadColor);
-					String color = inputField.getEditableText().toString()
+					String colorCode = inputField.getEditableText().toString()
 							.trim();
-					String colorCode = Bead.canonicalColorCode(color);
-					if (!colorCode.isEmpty()) {
-						mAdapter.insert(colorCode, 0);
+					String colorCodeSanitized = Bead.canonicalColorCode(colorCode);
+					if (!colorCodeSanitized.isEmpty()) {
+						beadInfoBunch.add(new BeadInfo(colorCodeSanitized));
 						mAdapter.notifyDataSetChanged();
-						saveIntoHistory(colorCode);
+						saveIntoHistory(colorCodeSanitized);
 
 					}
 					inputField.getEditableText().clear();
@@ -160,17 +160,6 @@ public class BeadActivity extends Activity {
 	protected void onRestoreInstanceState(Bundle b) {
 		if (b != null) {
 			super.onRestoreInstanceState(b);
-			ArrayList<String> savedHistory = b.getStringArrayList(KEY);
-
-			if (savedHistory != null) {
-				ArrayList<String> data = new ArrayList<String>();
-				for (String color : savedHistory) {
-					data.add(color);
-					saveIntoHistory(color);
-				}
-				mAdapter.addAll(data);
-			}
-
 		}
 	}
 

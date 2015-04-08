@@ -2,10 +2,13 @@ package com.veontomo.beadstore;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 /**
  * Adapter to visualize data stored in BeadInfo instances
@@ -14,14 +17,14 @@ import android.widget.BaseAdapter;
  * @since 0.6
  */
 public class BeadBaseAdapter extends BaseAdapter {
-	private Context mContext;
-	private ArrayList<BeadInfo> mData;
+	 Context mContext;
+	private ArrayList<Bead> beads;
 	
 	/**
 	 * Number of kinds of layout for bead visualization
 	 * @since 0.6
 	 */
-	private final static int NUM_OF_TYPES = 2;
+	private final static int NUM_OF_TYPES = 1;
 	
 	/**
 	 * Layout with textual information
@@ -37,19 +40,19 @@ public class BeadBaseAdapter extends BaseAdapter {
 	private final static int LAYOUT_THUMBNAIL = R.layout.bead_thumbnail;
 
 	
-	public BeadBaseAdapter(Context context, ArrayList<BeadInfo> data) {
+	public BeadBaseAdapter(Context context, ArrayList<Bead> beads) {
 		mContext = context;
-		this.mData = data;
+		this.beads = beads;
 	}
 
 	@Override
 	public int getCount() {
-		return mData.size();
+		return beads.size();
 	}
 
 	@Override
 	public Object getItem(int pos) {
-		return mData.get(pos);
+		return beads.get(pos);
 	}
 
 	@Override
@@ -64,7 +67,15 @@ public class BeadBaseAdapter extends BaseAdapter {
 	
 	@Override  
     public View getView(int position, View convertView, ViewGroup parent) {
-		// !!! stub
-         return null;  
+		View row = convertView;
+		if (row == null){
+			LayoutInflater inflater = ((Activity) this.mContext).getLayoutInflater();
+			row = inflater.inflate(LAYOUT_TEXT, parent, false);
+		}
+		TextView colorCodeTV = (TextView) row.findViewById(R.id.colorNumber);
+		if (colorCodeTV != null){
+			colorCodeTV.setText("+++");
+		}
+         return row;  
     }  
 }

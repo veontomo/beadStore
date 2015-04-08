@@ -20,6 +20,16 @@ public class BeadInfo {
 	 * @since 0.3
 	 */
 	private Location location;
+	
+	/**
+	 * Constructor
+	 * @param colorCode
+	 * @since 0.6
+	 */
+	public BeadInfo(String colorCode){
+		this.setColorCode(colorCode);
+		
+	}
 
 	/**
 	 * color code getter.
