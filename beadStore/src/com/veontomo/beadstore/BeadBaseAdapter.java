@@ -24,8 +24,9 @@ public class BeadBaseAdapter extends BaseAdapter {
 	/**
 	 * Number of kinds of layout for bead visualization.
 	 * <p>See <a href="http://stackoverflow.com/questions/5300962/getviewtypecount-and-getitemviewtype-methods-of-arrayadapter">this discussion</a>
-	 * <p> Strange fact: if this constant is set to 1, it works well, but by the nature of this constant, it should be set to 4. But 
-	 * in this case the program crashes. 
+	 * <p> Numeric value of this constant must be greater than numeric values
+	 * of the constants that correspond to particular types (in other words, numbers corresponding
+	 * to the layout types must start form 0 and be consecutive: 0, 1, 2, ...) 
 	 * @since 0.6
 	 */
 	private final static int NUM_OF_TYPES = 2;
