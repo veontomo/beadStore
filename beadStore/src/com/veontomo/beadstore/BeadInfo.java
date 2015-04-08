@@ -8,6 +8,35 @@ package com.veontomo.beadstore;
  * @since 0.3
  */
 public class BeadInfo {
+	
+	/**
+	 * Constant representing status of a bead that is present at the store and available
+	 * @since 0.6 
+	 */
+	public static final int AVAILABLE = 1;
+	
+	/**
+	 * Constant representing status of a bead that is not present at the store but it 
+	 * becomes available soon. 
+	 * @since 0.6 
+	 */
+	public static final int EXHAUSTED = 2;
+	
+	/**
+	 * Constant representing status of a bead that is not present at the store, not available
+	 * in the forthcoming future, but it is present in some external store.
+	 * @since 0.6 
+	 */
+	public static final int EXTERNAL = 3;
+
+	
+	/**
+	 * Constant representing status of a bead  information of which can not be retrieved.
+	 * @since 0.6 
+	 */
+	public static final int UNKNOWN = 4;
+
+
 	/**
 	 * Code of color of a bead
 	 * @since 0.3
@@ -87,11 +116,12 @@ public class BeadInfo {
 
 	/**
 	 * Returns type of the bead
-	 * @return
+	 * 
+	 * @return int
+	 * @since 0.6
 	 */
-	public Object getType() {
-		// TODO Auto-generated method stub
-		return null;
+	public int getStatus() {
+		return UNKNOWN;
 	}
 	
 	

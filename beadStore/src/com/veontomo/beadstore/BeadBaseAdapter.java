@@ -40,6 +40,19 @@ public class BeadBaseAdapter extends BaseAdapter {
 	 */
 	private final static int LAYOUT_THUMBNAIL = R.layout.bead_thumbnail;
 	private static final String TAG = "BeadStore";
+	
+	/**
+	 * Constant representing status of a bead that is present at the store and available
+	 * @since 0.6 
+	 */
+	private static final int AVAILABLE = 1;
+
+	/**
+	 * Constant representing status of a bead  information of which can not be retrieved.
+	 * @since 0.6 
+	 */
+
+	private static final int UNKNOWN = 4;
 
 	
 	public BeadBaseAdapter(Context context, ArrayList<BeadInfo> beads) {
@@ -70,10 +83,10 @@ public class BeadBaseAdapter extends BaseAdapter {
 //	@Override
 	public int getItemViewType(int index){
 		BeadInfo beadInfo = this.beadInfoBunch.get(index);
-		if (beadInfo.getType() == BeadInfo.AVAILABLE){
-			
-		}
-		return 1;
+		if (beadInfo.getStatus() == BeadInfo.AVAILABLE){
+			return AVAILABLE;
+		} 
+		return UNKNOWN;
 	}
 	
 	@Override  
