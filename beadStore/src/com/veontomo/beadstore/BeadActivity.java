@@ -64,6 +64,12 @@ public class BeadActivity extends Activity {
 		listView = (ListView) findViewById(R.id.list);
 		listView.addHeaderView(header);
 		mAdapter = new BeadBaseAdapter(this.getApplicationContext(), beadInfoBunch);
+		beadInfoBunch.add(0, new BeadInfo("1"));
+		beadInfoBunch.add(0, new BeadInfo("a"));
+		beadInfoBunch.add(0, new BeadInfo("b"));
+		beadInfoBunch.add(0, new BeadInfo("1"));
+		mAdapter.notifyDataSetChanged();
+
 		listView.setAdapter(mAdapter);
 
 		Button btn = (Button) findViewById(R.id.btnBeadFind);

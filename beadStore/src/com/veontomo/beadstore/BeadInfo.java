@@ -121,7 +121,7 @@ public class BeadInfo {
 	 * @since 0.6
 	 */
 	public int getStatus() {
-		return UNKNOWN;
+		return (!this.colorCode.equals("1")) ? UNKNOWN : AVAILABLE;
 	}
 	
 	
