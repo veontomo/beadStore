@@ -9,7 +9,7 @@ import android.util.Log;
  * @author veontomo@gmail.com
  * @since 0.2
  */
-public class BeadStand {
+public class BeadStore {
 
 	/**
 	 * Bead colors present on the stand
@@ -106,7 +106,7 @@ public class BeadStand {
 	/**
 	 * Constructor
 	 */
-	public BeadStand() {
+	public BeadStore() {
 		Log.i("App", "Initializing...");
 		initialize();
 		Log.i("App", "Initialization is done. There are " + colorToLocation.size() + " records.");
@@ -130,7 +130,7 @@ public class BeadStand {
 	 * in order to facilitate future search requests
 	 * 
 	 * @since 0.2
-	 * @see BeadStand#standContent
+	 * @see BeadStore#standContent
 	 */
 	private void initialize() {
 		String[] lines = this.standContent.split("\\n");
@@ -155,7 +155,7 @@ public class BeadStand {
 			rowLen = colors.length;
 			for (pointer = 0; pointer < rowLen; pointer++) {
 				key = colors[pointer];
-				this.colorToLocation.put(key,  new Location(currentMarker, pointer + 1, currentRow));
+				this.colorToLocation.put(key,  new Location(currentMarker, currentRow, pointer + 1));
 			}
 			currentRow++;
 		}

@@ -28,8 +28,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="com.veontomo.beadstore.BeadStand" project="beadStore" 
-    file="/beadStore/src/com/veontomo/beadstore/BeadStand.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="4" language="java" name="com.veontomo.beadstore.BeadStore" project="beadStore" 
+    file="/beadStore/src/com/veontomo/beadstore/BeadStore.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="112" width="144" x="41" y="672"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      

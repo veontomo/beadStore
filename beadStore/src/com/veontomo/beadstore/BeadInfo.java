@@ -8,6 +8,35 @@ package com.veontomo.beadstore;
  * @since 0.3
  */
 public class BeadInfo {
+	
+	/**
+	 * Constant representing status of a bead that is present at the store and available
+	 * @since 0.6 
+	 */
+	public static final int AVAILABLE = 1;
+	
+	/**
+	 * Constant representing status of a bead that is not present at the store but it 
+	 * becomes available soon. 
+	 * @since 0.6 
+	 */
+	public static final int EXHAUSTED = 2;
+	
+	/**
+	 * Constant representing status of a bead that is not present at the store, not available
+	 * in the forthcoming future, but it is present in some external store.
+	 * @since 0.6 
+	 */
+	public static final int EXTERNAL = 3;
+
+	
+	/**
+	 * Constant representing status of a bead  information of which can not be retrieved.
+	 * @since 0.6 
+	 */
+	public static final int UNKNOWN = 4;
+
+
 	/**
 	 * Code of color of a bead
 	 * @since 0.3
@@ -16,10 +45,45 @@ public class BeadInfo {
 	
 	/**
 	 * Location of the bead on the bead stand.
-	 * @see BeadStand
+	 * @see BeadStore
 	 * @since 0.3
 	 */
 	private Location location;
+	
+	/**
+	 * Bead status: available, sold out, external, unknown.
+	 * @since 0.6 
+	 */
+	private int status;
+	
+	/**
+	 * Bead instance.
+	 * 
+	 * It serves to have access to bead-specific information (color, type, etc.)
+	 * @since 0.7 
+	 */
+	private Bead bead;  
+	
+	/**
+	 * BeadStand instance.
+	 * 
+	 * It serves to have access to bead-store-related information 
+	 * (quantity, location, etc.)
+	 * @since 0.7 
+	 */
+	private static final BeadStore beadStore = new BeadStore(); 
+	
+	/**
+	 * Constructor
+	 * @param colorCode
+	 * @since 0.6
+	 */
+	public BeadInfo(String colorCode){
+		this.bead = new Bead(colorCode);
+		this.colorCode = this.bead.getColorCode();
+		this.setColorCode(this.colorCode);
+		this.location = beadStore.getByColor(this.colorCode); 
+	}
 
 	/**
 	 * color code getter.
@@ -67,6 +131,16 @@ public class BeadInfo {
 			output += location.toString() + " ";
 		}
 		return output;
+	}
+
+	/**
+	 * Returns type of the bead
+	 * 
+	 * @return int
+	 * @since 0.6
+	 */
+	public int getStatus() {
+		return (this.getLocation() == null) ? UNKNOWN : AVAILABLE;
 	}
 	
 	
