@@ -13,5 +13,6 @@
     <string name="standWing">сторона</string>
     <string name="standColumn">стовпчик</string>
     <string name="standRow">рядок</string>
+    <string name="standQuantity">кіл.</string>
 
 </resources>

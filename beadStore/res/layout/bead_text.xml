@@ -19,5 +19,9 @@
     <TextView
         android:id="@+id/beadLocationRow"
         style="@style/beadLocation" />
+    
+    <TextView
+        android:id="@+id/beadQuantity"
+        style="@style/beadQuantity"/>
 
 </LinearLayout>

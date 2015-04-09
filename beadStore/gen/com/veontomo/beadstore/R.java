@@ -25,17 +25,18 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000a;
-        public static final int beadColor=0x7f080006;
-        public static final int beadIconColumn=0x7f080009;
+        public static final int action_settings=0x7f08000b;
+        public static final int beadColor=0x7f080007;
+        public static final int beadIconColumn=0x7f08000a;
         public static final int beadLocationColumn=0x7f080003;
         public static final int beadLocationRow=0x7f080004;
         public static final int beadLocationWing=0x7f080002;
+        public static final int beadQuantity=0x7f080005;
         public static final int bead_row=0x7f080000;
-        public static final int btnBeadFind=0x7f080007;
+        public static final int btnBeadFind=0x7f080008;
         public static final int colorNumber=0x7f080001;
-        public static final int inputLine=0x7f080005;
-        public static final int list=0x7f080008;
+        public static final int inputLine=0x7f080006;
+        public static final int list=0x7f080009;
     }
     public static final class layout {
         public static final int bead_list_header=0x7f030000;
@@ -51,13 +52,14 @@ public final class R {
         public static final int app_name=0x7f050000;
         public static final int beadColorHint=0x7f050005;
         public static final int beadIconDescr=0x7f050007;
-        public static final int beadNotFound=0x7f05000c;
+        public static final int beadNotFound=0x7f05000d;
         public static final int beadPosition=0x7f050004;
         public static final int btnFindByColor=0x7f050002;
         public static final int colorNotFound=0x7f050006;
         public static final int colorNumber=0x7f050003;
-        public static final int searchResult=0x7f05000b;
+        public static final int searchResult=0x7f05000c;
         public static final int standColumn=0x7f050009;
+        public static final int standQuantity=0x7f05000b;
         public static final int standRow=0x7f05000a;
         public static final int standWing=0x7f050008;
     }
@@ -65,6 +67,7 @@ public final class R {
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+
 
 
 
@@ -86,9 +89,10 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f060001;
-        public static final int beadIconColumn=0x7f06000a;
-        public static final int beadIconColumnMissing=0x7f06000b;
+        public static final int beadIconColumn=0x7f06000b;
+        public static final int beadIconColumnMissing=0x7f06000c;
         public static final int beadLocation=0x7f060009;
+        public static final int beadQuantity=0x7f06000a;
         public static final int beadRow=0x7f060004;
         public static final int beadRowHeader=0x7f060006;
         public static final int beadRowMissing=0x7f060005;

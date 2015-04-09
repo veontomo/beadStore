@@ -12,5 +12,6 @@
     <string name="standWing">ala</string>
     <string name="standColumn">colonna</string>
     <string name="standRow">riga</string>
+    <string name="standQuantity">qt</string>
 
 </resources>

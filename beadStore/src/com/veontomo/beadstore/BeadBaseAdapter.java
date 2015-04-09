@@ -123,6 +123,7 @@ public class BeadBaseAdapter extends BaseAdapter {
 			String wing = loc.getWing();
 			String locRow = String.valueOf(loc.getRow());
 			String locCol = String.valueOf(loc.getCol());
+			String quantity = String.valueOf(beadInfo.getQuantity());
 
 			TextView wingTV = (TextView) row.findViewById(R.id.beadLocationWing);
 			if (wingTV != null){
@@ -136,6 +137,11 @@ public class BeadBaseAdapter extends BaseAdapter {
 			if (locColTV != null){
 				locColTV.setText(locCol);
 			}
+			TextView quantityTV = (TextView) row.findViewById(R.id.beadQuantity);
+			if (quantityTV != null){
+				quantityTV.setText(quantity);
+			}
+
 
 
 		}

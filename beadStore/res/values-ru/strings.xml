@@ -13,5 +13,6 @@
     <string name="standWing">cторона</string>
     <string name="standColumn">столбец</string>
     <string name="standRow">ряд</string>
+    <string name="standQuantity">к-во</string>
 
 </resources>

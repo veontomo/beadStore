@@ -11,4 +11,6 @@
     <string name="standWing">wing</string>
     <string name="standColumn">column</string>
     <string name="standRow">row</string>
+    <string name="standQuantity">qty</string>
+       
 </resources>
