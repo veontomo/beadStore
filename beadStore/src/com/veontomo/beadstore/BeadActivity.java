@@ -66,7 +66,7 @@ public class BeadActivity extends Activity {
 		mAdapter = new BeadBaseAdapter(this.getApplicationContext(), beadInfoBunch);
 		beadInfoBunch.add(0, new BeadInfo("00100"));
 		beadInfoBunch.add(0, new BeadInfo("abc"));
-		beadInfoBunch.add(0, new BeadInfo("10050/1"));
+		beadInfoBunch.add(0, new BeadInfo("10050-1"));
 		beadInfoBunch.add(0, new BeadInfo("38135"));
 		mAdapter.notifyDataSetChanged();
 

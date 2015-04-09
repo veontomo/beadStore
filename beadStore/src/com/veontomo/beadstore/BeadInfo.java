@@ -1,5 +1,7 @@
 package com.veontomo.beadstore;
 
+import android.util.Log;
+
 /**
  * Collects information about specific bead.
  * It contains information that should be displayed
@@ -71,7 +73,9 @@ public class BeadInfo {
 	 * (quantity, location, etc.)
 	 * @since 0.7 
 	 */
-	private static final BeadStore beadStore = new BeadStore(); 
+	private static final BeadStore beadStore = new BeadStore();
+
+	private static final String TAG = "BeadStore"; 
 	
 	/**
 	 * Constructor
@@ -79,9 +83,10 @@ public class BeadInfo {
 	 * @since 0.6
 	 */
 	public BeadInfo(String colorCode){
+		Log.i(TAG, "color code received: " + String.valueOf(colorCode));
 		this.bead = new Bead(colorCode);
-		this.colorCode = this.bead.getColorCode();
-		this.setColorCode(this.colorCode);
+		Log.i(TAG, "color code from bead: " + String.valueOf(this.bead.getColorCode()));
+		this.setColorCode(this.bead.getColorCode());
 		this.location = beadStore.getByColor(this.colorCode); 
 	}
 

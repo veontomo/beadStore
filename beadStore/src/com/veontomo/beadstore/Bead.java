@@ -21,7 +21,7 @@ public class Bead {
 	 * @since 0.1
 	 */
 	public Bead(String colorCode) {
-		this.colorCode = colorCode;
+		this.setColorCode(colorCode);
 	}
 	
 	
@@ -42,7 +42,7 @@ public class Bead {
 	 * @see Bead#colorCode
 	 */
 	public void setColorCode(String colorCode) {
-		this.colorCode = colorCode;
+		this.colorCode = canonicalColorCode(colorCode);
 	}
 
 	/**
