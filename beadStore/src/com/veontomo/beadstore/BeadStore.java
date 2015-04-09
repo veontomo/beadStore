@@ -1,6 +1,7 @@
 package com.veontomo.beadstore;
 
 import java.util.HashMap;
+
 import android.util.Log;
 
 /**
@@ -159,6 +160,16 @@ public class BeadStore {
 			}
 			currentRow++;
 		}
+	}
+
+	/**
+	 * Returns number of sachets of bead of given color present in the store.  
+	 * @param colorCode
+	 * @return int
+	 */
+	public int getQuantity(String colorCode) {
+		/// !!! stub
+		return 5;
 	}
 
 }

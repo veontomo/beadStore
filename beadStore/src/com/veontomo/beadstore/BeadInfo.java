@@ -64,7 +64,13 @@ public class BeadInfo {
 	 * It serves to have access to bead-specific information (color, type, etc.)
 	 * @since 0.7 
 	 */
-	private Bead bead;  
+	private Bead bead;
+
+	/**
+	 * Number of bead sachets present in the store
+	 * @since 0.7
+	 */
+	private int quantity;  
 	
 	/**
 	 * BeadStand instance.
@@ -83,12 +89,69 @@ public class BeadInfo {
 	 * @since 0.6
 	 */
 	public BeadInfo(String colorCode){
-		Log.i(TAG, "color code received: " + String.valueOf(colorCode));
 		this.bead = new Bead(colorCode);
-		Log.i(TAG, "color code from bead: " + String.valueOf(this.bead.getColorCode()));
 		this.setColorCode(this.bead.getColorCode());
-		this.location = beadStore.getByColor(this.colorCode); 
+		this.setLocation(beadStore.getByColor(this.colorCode));
+		this.setQuantity(beadStore.getQuantity(this.colorCode));
+		this.updateStatus();
 	}
+
+
+	/**
+	 * Calculate status of the bead based on the location (whether it is present in the store) 
+	 * and quantity (how many sachets are present in the store)
+	 * @since 0.7
+	 */
+	private void updateStatus() {
+		if (this.getLocation() == null){
+			this.setStatus(EXTERNAL);
+		} else {
+			if (this.getQuantity() == 0){
+				this.setStatus(EXHAUSTED);
+			} else {
+				this.setStatus(AVAILABLE);
+			}
+		}
+		
+	}
+
+
+	/**
+	 * status setter
+	 * @param int 
+	 * @since 0.7
+	 * 
+	 */
+	private void setStatus(int status) {
+		this.status = status;
+		
+	}
+
+
+	/**
+	 * quantity setter
+	 *  
+	 * @param quantity
+	 * @since 0.7
+	 */
+	private void setQuantity(int quantity) {
+		this.quantity = quantity;
+		
+	}
+	
+	/**
+	 * quantity getter 
+	 * @return int
+	 * @since 0.7
+	 */
+	public int getQuantity(){
+		return this.quantity;
+	}
+	
+	
+
+
+
 
 	/**
 	 * color code getter.
