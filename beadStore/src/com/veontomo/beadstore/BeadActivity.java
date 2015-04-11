@@ -87,7 +87,8 @@ public class BeadActivity extends Activity {
 							.trim();
 					String colorCodeSanitized = Bead.canonicalColorCode(colorCode);
 					if (!colorCodeSanitized.isEmpty()) {
-						beadInfoBunch.add(new BeadInfo(colorCodeSanitized));
+						Log.i(TAG, "Inserting " + colorCodeSanitized);
+						beadInfoBunch.add(0, new BeadInfo(colorCodeSanitized));
 						mAdapter.notifyDataSetChanged();
 						saveIntoHistory(colorCodeSanitized);
 

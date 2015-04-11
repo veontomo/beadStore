@@ -57,6 +57,13 @@ public class BeadBaseAdapter extends BaseAdapter {
 	 * @since 0.6
 	 */
 	private final static int LAYOUT_THUMBNAIL = R.layout.bead_thumbnail;
+	
+	/**
+	 * A class instance that is able to insert bitmap
+	 * @since 0.6 
+	 */
+	private BitmapInserter imageInserter;
+	
 	private static final String TAG = "BeadStore";
 	
 	/**
@@ -125,7 +132,7 @@ public class BeadBaseAdapter extends BaseAdapter {
          return row;  
     }
 	/**
-	 * Inflate row with thumbnail
+	 * Fill in row with thumbnail
 	 * @param row
 	 * @param beadInfo
 	 * @since 0.6
@@ -136,18 +143,19 @@ public class BeadBaseAdapter extends BaseAdapter {
 			String colorCode = beadInfo.getColorCode();
 			if (colorCode != null){
 				colorCodeTV.setText(colorCode);
-				BitmapInserter imageInserter = new BitmapInserter();
+				imageInserter = new BitmapInserter();
 				imageInserter.setLocation((ImageView) row.findViewById(R.id.beadIconColumn));
 				imageInserter.setStorage(new File(APPFOLDER, IMAGEFOLDER));
 				imageInserter.execute(colorCode);
 			}
 		}
-		
-
-
-		
 	}
 
+	/**
+	 * Fill in row with text information
+	 * @param row
+	 * @param beadInfo
+	 */
 	private void inflateTextLayout(View row, BeadInfo beadInfo) {
 		TextView colorCodeTV = (TextView) row.findViewById(R.id.colorNumber);
 		if (colorCodeTV != null){
