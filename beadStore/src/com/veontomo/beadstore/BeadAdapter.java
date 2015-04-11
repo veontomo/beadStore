@@ -18,6 +18,7 @@ import android.widget.TextView;
  * 
  * @author veontomo@gmail.com
  * @since 0.1
+ * @deprecated In favour of BeadBaseAdapter
  */
 public class BeadAdapter extends ArrayAdapter<String> {
 	private final static int BEAD_EXISTS = R.layout.bead_text;

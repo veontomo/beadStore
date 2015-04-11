@@ -1,5 +1,6 @@
 package com.veontomo.beadstore;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -30,6 +32,18 @@ public class BeadBaseAdapter extends BaseAdapter {
 	 * @since 0.6
 	 */
 	private final static int NUM_OF_TYPES = 2;
+	
+	/**
+	 * A name of folder where application files should be stored. 
+	 * @since 0.5   
+	 */
+	final static private String APPFOLDER = "BeadStore"; 
+
+	/**
+	 * A name of subfolder inside the application folder where thumbnails should be stored.
+	 * @since 0.5   
+	 */
+	final static private String IMAGEFOLDER = "thumbnails"; 
 	
 	/**
 	 * Layout with textual information
@@ -104,11 +118,35 @@ public class BeadBaseAdapter extends BaseAdapter {
 				this.inflateTextLayout(row, this.beadInfoBunch.get(position));
 			} else {
 				row = inflater.inflate(LAYOUT_THUMBNAIL, parent, false);
+				this.inflateThumbnailLayout(row, this.beadInfoBunch.get(position));
 			}
 		
 		}
          return row;  
     }
+	/**
+	 * Inflate row with thumbnail
+	 * @param row
+	 * @param beadInfo
+	 * @since 0.6
+	 */
+	private void inflateThumbnailLayout(View row, BeadInfo beadInfo) {
+		TextView colorCodeTV = (TextView) row.findViewById(R.id.colorNumber);
+		if (colorCodeTV != null){
+			String colorCode = beadInfo.getColorCode();
+			if (colorCode != null){
+				colorCodeTV.setText(colorCode);
+				BitmapInserter imageInserter = new BitmapInserter();
+				imageInserter.setLocation((ImageView) row.findViewById(R.id.beadIconColumn));
+				imageInserter.setStorage(new File(APPFOLDER, IMAGEFOLDER));
+				imageInserter.execute(colorCode);
+			}
+		}
+		
+
+
+		
+	}
 
 	private void inflateTextLayout(View row, BeadInfo beadInfo) {
 		TextView colorCodeTV = (TextView) row.findViewById(R.id.colorNumber);
