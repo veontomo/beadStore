@@ -2,6 +2,9 @@ package com.veontomo.beadstore;
 
 import java.util.HashMap;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
@@ -10,7 +13,7 @@ import android.util.Log;
  * @author veontomo@gmail.com
  * @since 0.2
  */
-public class BeadStore {
+public class BeadStore extends SQLiteOpenHelper {
 
 	/**
 	 * Bead colors present on the stand
@@ -107,20 +110,23 @@ public class BeadStore {
 	/**
 	 * Constructor
 	 */
-	public BeadStore() {
-		Log.i("App", "Initializing...");
+	public BeadStore(Context context) {
+		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		initialize();
-		Log.i("App", "Initialization is done. There are " + colorToLocation.size() + " records.");
+		Log.i("App",
+				"Initialization is done. There are " + colorToLocation.size()
+						+ " records.");
 	}
-	
+
 	/**
-	 * Returns location of the bead with given color code. 
+	 * Returns location of the bead with given color code.
+	 * 
 	 * @param colorCode
 	 * @return Location
 	 * @since 0.2
 	 */
-	public Location getByColor(String colorCode){
-		if (colorToLocation.containsKey(colorCode)){
+	public Location getByColor(String colorCode) {
+		if (colorToLocation.containsKey(colorCode)) {
 			return colorToLocation.get(colorCode);
 		}
 		return null;
@@ -156,20 +162,51 @@ public class BeadStore {
 			rowLen = colors.length;
 			for (pointer = 0; pointer < rowLen; pointer++) {
 				key = colors[pointer];
-				this.colorToLocation.put(key,  new Location(currentMarker, currentRow, pointer + 1));
+				this.colorToLocation.put(key, new Location(currentMarker,
+						currentRow, pointer + 1));
 			}
 			currentRow++;
 		}
 	}
 
 	/**
-	 * Returns number of sachets of bead of given color present in the store.  
+	 * Returns number of sachets of bead of given color present in the store.
+	 * 
 	 * @param colorCode
 	 * @return int
 	 */
 	public int getQuantity(String colorCode) {
-		/// !!! stub
+		// / !!! stub
 		return 5;
+	}
+
+	public static final String TABLE_NAME = "BeadStore";
+	public static final String COLUMN_ID = "_id";
+	public static final String COLUMN_COLORCODE = "color_code";
+	public static final String COLUMN_QUANTITY = "quantity";
+	
+
+	private static final String DATABASE_NAME = "BeadStore";
+	private static final int DATABASE_VERSION = 1;
+
+	// Database creation sql statement
+	private static final String DATABASE_CREATE = "create table "
+			+ TABLE_NAME + "(" + COLUMN_ID
+			+ " integer primary key autoincrement, " + COLUMN_COLORCODE
+			+ " text not null, " + COLUMN_QUANTITY + " integer not null);";
+
+	@Override
+	public void onCreate(SQLiteDatabase database) {
+		database.execSQL(DATABASE_CREATE);
+	}
+
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		Log.w(BeadStore.class.getName(), "Upgrading database from version "
+				+ oldVersion + " to " + newVersion
+				+ ", which will destroy all old data");
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+		onCreate(db);
 	}
 
 }

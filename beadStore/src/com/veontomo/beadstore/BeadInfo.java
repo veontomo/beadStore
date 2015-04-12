@@ -1,5 +1,6 @@
 package com.veontomo.beadstore;
 
+import android.content.Context;
 import android.util.Log;
 
 /**
@@ -70,8 +71,24 @@ public class BeadInfo {
 	 * Number of bead sachets present in the store
 	 * @since 0.7
 	 */
-	private int quantity;  
+	private int quantity;
+
+	/**
+	 * Context of the current activity. It is set from BeadActivity
+	 * @since 0.7
+	 */
+	private Context context;  
 	
+	/**
+	 * Context getter
+	 * @return the context
+	 * @since 0.7
+	 */
+	public Context getContext() {
+		return context;
+	}
+
+
 	/**
 	 * BeadStand instance.
 	 * 
@@ -79,7 +96,7 @@ public class BeadInfo {
 	 * (quantity, location, etc.)
 	 * @since 0.7 
 	 */
-	private static final BeadStore beadStore = new BeadStore();
+	private static BeadStore beadStore = null;
 
 	private static final String TAG = "BeadStore"; 
 	
@@ -88,7 +105,9 @@ public class BeadInfo {
 	 * @param colorCode
 	 * @since 0.6
 	 */
-	public BeadInfo(String colorCode){
+	public BeadInfo(String colorCode, Context context){
+		this.context = context;
+		this.beadStore = new BeadStore(context);
 		this.bead = new Bead(colorCode);
 		this.setColorCode(this.bead.getColorCode());
 		this.setLocation(beadStore.getByColor(this.colorCode));
@@ -210,7 +229,4 @@ public class BeadInfo {
 	public int getStatus() {
 		return (this.getLocation() == null) ? UNKNOWN : AVAILABLE;
 	}
-	
-	
-
 }

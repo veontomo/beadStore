@@ -64,10 +64,10 @@ public class BeadActivity extends Activity {
 		listView = (ListView) findViewById(R.id.list);
 		listView.addHeaderView(header);
 		mAdapter = new BeadBaseAdapter(this.getApplicationContext(), beadInfoBunch);
-		beadInfoBunch.add(0, new BeadInfo("00100"));
-		beadInfoBunch.add(0, new BeadInfo("abc"));
-		beadInfoBunch.add(0, new BeadInfo("10050-1"));
-		beadInfoBunch.add(0, new BeadInfo("38135"));
+//		beadInfoBunch.add(0, new BeadInfo("00100"));
+//		beadInfoBunch.add(0, new BeadInfo("abc"));
+//		beadInfoBunch.add(0, new BeadInfo("10050-1"));
+//		beadInfoBunch.add(0, new BeadInfo("38135"));
 		mAdapter.notifyDataSetChanged();
 
 		listView.setAdapter(mAdapter);
@@ -78,20 +78,17 @@ public class BeadActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// / hiding soft keyboard
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+				hideKeyboard(v);
 				if (mAdapter != null) {
 					EditText inputField = (EditText) findViewById(R.id.beadColor);
 					String colorCode = inputField.getEditableText().toString()
 							.trim();
 					String colorCodeSanitized = Bead.canonicalColorCode(colorCode);
 					if (!colorCodeSanitized.isEmpty()) {
-						Log.i(TAG, "Inserting " + colorCodeSanitized);
-						beadInfoBunch.add(new BeadInfo(colorCodeSanitized));
+						BeadInfo beadInfo = new BeadInfo(colorCodeSanitized, (Context) getApplicationContext());
+						beadInfoBunch.add(beadInfo);
 						mAdapter.notifyDataSetChanged();
 						saveIntoHistory(colorCodeSanitized);
-
 					}
 					inputField.getEditableText().clear();
 				}
@@ -100,6 +97,17 @@ public class BeadActivity extends Activity {
 	
 	}
 
+	/**
+	 * Hides sof keyboard
+	 * @param v
+	 * @since 0.7
+	 */
+	private void hideKeyboard(View v) {
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		if (imm != null){
+			imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+		}
+	}
 
 	
 	/**
