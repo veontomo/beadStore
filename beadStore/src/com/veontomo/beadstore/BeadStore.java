@@ -2,7 +2,10 @@ package com.veontomo.beadstore;
 
 import java.util.HashMap;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -14,6 +17,22 @@ import android.util.Log;
  * @since 0.2
  */
 public class BeadStore extends SQLiteOpenHelper {
+
+	private final String TAG = "BeadStore";
+
+	/**
+	 * Default value of bead sachets
+	 */
+	private final static int MAXQUANTITY = 10;
+
+	/**
+	 * Database holder
+	 * 
+	 * @since 0.7
+	 */
+	private SQLiteDatabase database;
+	
+	private String[] allColumns = {COLUMN_ID, COLUMN_COLORCODE, COLUMN_QUANTITY, COLUMN_WING, COLUMN_ROW, COLUMN_WING};
 
 	/**
 	 * Bead colors present on the stand
@@ -113,9 +132,66 @@ public class BeadStore extends SQLiteOpenHelper {
 	public BeadStore(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		initialize();
-		Log.i("App",
+		open();
+		loadDb();
+		Log.i(TAG,
 				"Initialization is done. There are " + colorToLocation.size()
 						+ " records.");
+	}
+
+	/**
+	 * Opens database
+	 * 
+	 * @since 0.7
+	 * @throws SQLException
+	 */
+	public void open() throws SQLException {
+		database = this.getWritableDatabase();
+	}
+
+	/**
+	 * Closes db
+	 * @since 0.7
+	 */
+	public void close() {
+		super.close();
+	}
+	
+//	 public BeadInfo createBeadInfo(String ) {
+//		    ContentValues values = new ContentValues();
+//		    values.put(MySQLiteHelper.COLUMN_COMMENT, comment);
+//		    long insertId = database.insert(MySQLiteHelper.TABLE_COMMENTS, null,
+//		        values);
+//		    Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
+//		        allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
+//		        null, null, null);
+//		    cursor.moveToFirst();
+//		    Comment newComment = cursorToComment(cursor);
+//		    cursor.close();
+//		    return newComment;
+//		  }
+
+
+	/**
+	 * Loads locations and available quantity of beads into db
+	 * 
+	 * @since 0.7
+	 */
+	private void loadDb() {
+		ContentValues values = new ContentValues();
+	    values.put(COLUMN_COLORCODE, "112233");
+	    values.put(COLUMN_QUANTITY, MAXQUANTITY);
+	    values.put(COLUMN_ROW, "row 4");
+	    values.put(COLUMN_COLUMN, "column 5");
+	    values.put(COLUMN_WING, "wing 5");
+	    
+	    long insertId = database.insert(TABLE_NAME, null, values);
+	    Log.i(TAG, "inserted id: " + String.valueOf(insertId));
+//	    Cursor cursor = database.query(TABLE_NAME, allColumns, COLUMN_ID + " = " + insertId, null,
+//	        null, null, null);
+//	    cursor.moveToFirst();
+//	    Comment newComment = cursorToComment(cursor);
+//	    cursor.close();
 	}
 
 	/**
@@ -184,19 +260,28 @@ public class BeadStore extends SQLiteOpenHelper {
 	public static final String COLUMN_ID = "_id";
 	public static final String COLUMN_COLORCODE = "color_code";
 	public static final String COLUMN_QUANTITY = "quantity";
-	
 
 	private static final String DATABASE_NAME = "BeadStore";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
+
+	private static final String COLUMN_WING = "wing";
+
+	private static final String COLUMN_ROW = "row";
+
+	private static final String COLUMN_COLUMN = "col";
 
 	// Database creation sql statement
-	private static final String DATABASE_CREATE = "create table "
-			+ TABLE_NAME + "(" + COLUMN_ID
-			+ " integer primary key autoincrement, " + COLUMN_COLORCODE
-			+ " text not null, " + COLUMN_QUANTITY + " integer not null);";
+	private static final String DATABASE_CREATE = "create table " + TABLE_NAME
+			+ "(" + COLUMN_ID + " integer primary key autoincrement, "
+			+ COLUMN_COLORCODE + " text not null, " 
+			+ COLUMN_QUANTITY + " integer, " 
+			+ COLUMN_WING + " text, " 
+			+ COLUMN_ROW + " text, "
+			+ COLUMN_COLUMN + "text);";
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
+		Log.i(TAG, "creating db");
 		database.execSQL(DATABASE_CREATE);
 	}
 

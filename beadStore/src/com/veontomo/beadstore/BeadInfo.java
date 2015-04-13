@@ -107,7 +107,7 @@ public class BeadInfo {
 	 */
 	public BeadInfo(String colorCode, Context context){
 		this.context = context;
-		this.beadStore = new BeadStore(context);
+		beadStore = new BeadStore(context);
 		this.bead = new Bead(colorCode);
 		this.setColorCode(this.bead.getColorCode());
 		this.setLocation(beadStore.getByColor(this.colorCode));
