@@ -262,7 +262,7 @@ public class BeadStore extends SQLiteOpenHelper {
 	public static final String COLUMN_QUANTITY = "quantity";
 
 	private static final String DATABASE_NAME = "BeadStore";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 
 	private static final String COLUMN_WING = "wing";
 
@@ -277,7 +277,7 @@ public class BeadStore extends SQLiteOpenHelper {
 			+ COLUMN_QUANTITY + " integer, " 
 			+ COLUMN_WING + " text, " 
 			+ COLUMN_ROW + " text, "
-			+ COLUMN_COLUMN + "text);";
+			+ COLUMN_COLUMN + " text);";
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
