@@ -187,9 +187,9 @@ public class BeadStore extends SQLiteOpenHelper {
 			Location location = infoLine.getValue();
 		    values.put(COLUMN_COLORCODE, colorCode);
 		    values.put(COLUMN_QUANTITY, MAXQUANTITY);
-		    values.put(COLUMN_ROW, String.valueOf(location.getRow()));
-		    values.put(COLUMN_COLUMN, String.valueOf(location.getCol()));
-		    values.put(COLUMN_WING, String.valueOf(location.getWing()));
+		    values.put(COLUMN_ROW, location.getRow());
+		    values.put(COLUMN_COLUMN, location.getCol());
+		    values.put(COLUMN_WING, location.getWing());
 		    insertId = database.insert(TABLE_NAME, null, values);
 		    if (insertId == -1){
 		    	Log.i(TAG, "problem with inserting bead " + colorCode + " located at " + location.toString());
@@ -273,7 +273,7 @@ public class BeadStore extends SQLiteOpenHelper {
 	public static final String COLUMN_QUANTITY = "quantity";
 
 	private static final String DATABASE_NAME = "BeadStore";
-	private static final int DATABASE_VERSION = 4;
+	private static final int DATABASE_VERSION = 1;
 
 	private static final String COLUMN_WING = "wing";
 
