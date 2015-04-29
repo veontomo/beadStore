@@ -69,7 +69,6 @@ public final class R {
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
 
 
-
     
 
         Base application theme for API 11+. This theme completely replaces

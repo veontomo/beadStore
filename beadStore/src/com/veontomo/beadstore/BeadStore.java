@@ -1,6 +1,7 @@
 package com.veontomo.beadstore;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -178,15 +179,25 @@ public class BeadStore extends SQLiteOpenHelper {
 	 * @since 0.7
 	 */
 	private void loadDb() {
-		ContentValues values = new ContentValues();
-	    values.put(COLUMN_COLORCODE, "112233");
-	    values.put(COLUMN_QUANTITY, MAXQUANTITY);
-	    values.put(COLUMN_ROW, "row 4");
-	    values.put(COLUMN_COLUMN, "column 5");
-	    values.put(COLUMN_WING, "wing 5");
-	    
-	    long insertId = database.insert(TABLE_NAME, null, values);
-	    Log.i(TAG, "inserted id: " + String.valueOf(insertId));
+		ContentValues values;
+		long insertId;
+		for (Entry<String, Location> infoLine : colorToLocation.entrySet()){
+			values = new ContentValues();
+			String colorCode = infoLine.getKey();
+			Location location = infoLine.getValue();
+		    values.put(COLUMN_COLORCODE, colorCode);
+		    values.put(COLUMN_QUANTITY, MAXQUANTITY);
+		    values.put(COLUMN_ROW, String.valueOf(location.getRow()));
+		    values.put(COLUMN_COLUMN, String.valueOf(location.getCol()));
+		    values.put(COLUMN_WING, String.valueOf(location.getWing()));
+		    insertId = database.insert(TABLE_NAME, null, values);
+		    if (insertId == -1){
+		    	Log.i(TAG, "problem with inserting bead " + colorCode + " located at " + location.toString());
+		    }
+		    
+
+			
+		}
 //	    Cursor cursor = database.query(TABLE_NAME, allColumns, COLUMN_ID + " = " + insertId, null,
 //	        null, null, null);
 //	    cursor.moveToFirst();
