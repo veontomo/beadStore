@@ -273,22 +273,35 @@ public class BeadStore extends SQLiteOpenHelper {
 	public static final String COLUMN_QUANTITY = "quantity";
 
 	private static final String DATABASE_NAME = "BeadStore";
-	private static final int DATABASE_VERSION = 3;
+	private static final int DATABASE_VERSION = 4;
 
 	private static final String COLUMN_WING = "wing";
 
 	private static final String COLUMN_ROW = "row";
 
 	private static final String COLUMN_COLUMN = "col";
+	
+	/**
+	 * Maximal number of characters in color code string
+	 * @since 0.8
+	 */
+	private static final int COLORCODE_MAX_LEN = 7;
+	
+	/**
+	 * Maximal number of characters in string describing wing
+	 * @since 0.8
+	 */
+	private static final int WING_MAX_LEN = 2;
 
 	// Database creation sql statement
 	private static final String DATABASE_CREATE = "create table " + TABLE_NAME
 			+ "(" + COLUMN_ID + " integer primary key autoincrement, "
-			+ COLUMN_COLORCODE + " text not null, " 
+			+ COLUMN_COLORCODE + " varchar(" + String.valueOf(COLORCODE_MAX_LEN) + ") not null unique, " 
 			+ COLUMN_QUANTITY + " integer, " 
-			+ COLUMN_WING + " text, " 
-			+ COLUMN_ROW + " text, "
-			+ COLUMN_COLUMN + " text);";
+			+ COLUMN_WING + " char(" + String.valueOf(WING_MAX_LEN) + "), " 
+			+ COLUMN_ROW + " tinyint unsigned, "
+			+ COLUMN_COLUMN + " tinyint unsigned, " 
+			+ "unique (" + COLUMN_WING + ", " + COLUMN_ROW + ", " + COLUMN_COLUMN + "));";
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
